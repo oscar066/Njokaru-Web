@@ -1,18 +1,44 @@
+/* Updated styling for the header */
 .navbar {
     overflow: hidden;
     background-color: #1c6204;
-}
-
-.navbar a {
-    float: left;
-    display: block;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Styling for the company name */
+  .company-name span {
+    font-size: 24px;
     color: #f2f2f2;
-    text-align: center;
-    padding: 20px 24px;
+    font-weight: bold;
+  }
+  
+  /* Styling for the navigation links */
+  .nav-links a {
+    color: #f2f2f2;
     text-decoration: none;
-}
-
-.navbar a:hover {
+    padding: 10px 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-links a:hover {
     background-color: #ddd;
     color: rgb(15, 112, 23);
-}
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .nav-links a {
+      margin: 5px 0;
+    }
+  }
+  
