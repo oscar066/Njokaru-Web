@@ -1,0 +1,10 @@
+.about-us {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.about-image {
+    width: 35%;
+    height: auto;
+}
