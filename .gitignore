@@ -1,3 +1,8 @@
 # Ignore dependencies 
 
 node_modules/
+
+# ignore node modules in the Frontendd folder
+
+Frontendd/node_modules
+
