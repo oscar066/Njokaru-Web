@@ -4,7 +4,7 @@ import aboutImage from '../../Assets/eden-phase-2.jpeg'
 
 function AboutUs() {
   return (
-    <div className='about-us'>
+    <div id="about" className='about-us'>
       <div className='about-image-container'>
         <img src={aboutImage} alt='About us' className='about-image' />
       </div>

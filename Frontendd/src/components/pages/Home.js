@@ -22,3 +22,6 @@ function Home() {
 export default Home
 
 //rfce
+
+// page 161 for microservices  
+// page 419 for learning React
