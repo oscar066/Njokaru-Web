@@ -1,44 +1,52 @@
+
 /* Updated styling for the header */
 .navbar {
-    overflow: hidden;
-    background-color: #1c6204;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
+  overflow: hidden;
+  background-color: #1c6204;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styling for the company name */
+.company-name span {
+  font-size: 24px;
+  color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Styling for the navigation links */
+.nav-links {
+  display: flex;
+}
+
+.nav-links a {
+  color: #f2f2f2;
+  text-decoration: none;
+  padding: 10px 16px;
+  margin-right: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #ddd;
+  color: rgb(15, 112, 23);
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
     align-items: center;
   }
-  
-  /* Styling for the company name */
-  .company-name span {
-    font-size: 24px;
-    color: #f2f2f2;
-    font-weight: bold;
+
+  .nav-links {
+    margin-top: 20px;
   }
-  
-  /* Styling for the navigation links */
+
   .nav-links a {
-    color: #f2f2f2;
-    text-decoration: none;
-    padding: 10px 16px;
-    margin-right: 10px;
-    transition: background-color 0.3s, color 0.3s;
+    margin: 5px 0;
+    margin-right: 0;
   }
-  
-  .nav-links a:hover {
-    background-color: #ddd;
-    color: rgb(15, 112, 23);
-  }
-  
-  /* Media query for responsiveness */
-  @media (max-width: 768px) {
-    .nav-links {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .nav-links a {
-      margin: 5px 0;
-    }
-  }
-  
+}
