@@ -1,0 +1,16 @@
+
+// ExampleCarouselImage.js
+import React from 'react';
+import image from "../../Assets/eden-phase-1.jpeg"
+
+function CarouselImage({ text }) {
+  return (
+    <img
+      className="d-block w-100"
+      src={`https://via.placeholder.com/800x400.png?text=${text}`}
+      alt={text}
+    />
+  );
+}
+
+export default CarouselImage;
