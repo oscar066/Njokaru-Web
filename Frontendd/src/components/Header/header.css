@@ -16,7 +16,7 @@
   font-weight: bold;
 }
 
-/* Styling for the navigation links */
+
 .nav-links {
   display: flex;
 }
@@ -34,7 +34,6 @@
   color: rgb(15, 112, 23);
 }
 
-/* Media query for responsiveness */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
