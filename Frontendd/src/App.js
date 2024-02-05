@@ -2,16 +2,16 @@ import React from 'react'
 import './App.css';
 import AboutUs from './components/AboutUs/AboutUs';
 import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
 import Cards from './components/Cards/Cards'
 import Contact from './components/Contact/Contact';
+import CarouselFade from './components/Hero/Carousel';
+import CustomNavbar from './components/Header/Navbar';
 
 function App() {
   return (
     <div className="App">
-     <Header />
-     <Hero />
+     <CustomNavbar />
+     <CarouselFade />
      <AboutUs />
      <Cards />
      <Contact />
