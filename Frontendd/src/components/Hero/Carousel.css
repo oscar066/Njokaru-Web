@@ -1,7 +1,10 @@
 /* CarouselFade.css */
 
-.carousel-image {
-    height: 400px; 
-    object-fit: cover; 
-  }
-  
+.d-block.w-100 {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 10/4.5;
+  object-fit: cover;
+}
+
+
