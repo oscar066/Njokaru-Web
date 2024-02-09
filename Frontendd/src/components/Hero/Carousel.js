@@ -7,7 +7,7 @@ import './Carousel.css'
 
 function CarouselFade() {
   return (
-    <Carousel fade>
+    <Carousel data-bs-theme="auto" fade>
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -38,9 +38,7 @@ function CarouselFade() {
         />
         <Carousel.Caption>
           <h3>Precision Tree Pruning</h3>
-          <p>
-          Maintain the health and aesthetics of your trees with our expert pruning services.
-          </p>
+          <p>Maintain the health and aesthetics of your trees with our expert pruning services.</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
