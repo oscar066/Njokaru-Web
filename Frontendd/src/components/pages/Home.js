@@ -1,12 +1,12 @@
 import React from 'react'
-import AboutUs from './components/AboutUs/AboutUs';
-import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import Cards from './components/Cards/Cards'
-import Contact from './components/Contact/Contact';
+import Header from '../../components/Header/Header'
+import Hero from '../../components/Hero/Hero'
+import AboutUs from '../../components/AboutUs/AboutUs'
+import Cards from '../../components/Cards/Cards'
+import Contact from '../../components/Contact/Contact'
+import Footer from '../../components/Footer/Footer'
 
-function Home() {
+function HomePage() {
   return (
     <div className="Home">
      <Header />
@@ -19,7 +19,7 @@ function Home() {
   )
 }
 
-export default Home
+export default HomePage
 
 //rfce
 
