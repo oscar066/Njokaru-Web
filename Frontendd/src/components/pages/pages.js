@@ -25,7 +25,7 @@ export function Events(){
     );
 }
 
-export function products(){
+export function Products(){
     return (
         <div>
             <h1>[Products]</h1>
@@ -39,4 +39,12 @@ export function Contact(){
             <h1>[Contact]</h1>
         </div>
     );
+}
+
+export function Whoops404(){
+    return (
+        <div>
+            <h1> Resource not found.</h1>
+        </div>
+    )
 }

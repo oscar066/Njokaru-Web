@@ -1,21 +1,25 @@
 import React from 'react'
-import './App.css';
-import AboutUs from './components/AboutUs/AboutUs';
-import Footer from './components/Footer/Footer';
-import Cards from './components/Cards/Cards'
-import Contact from './components/Contact/Contact';
-import CarouselFade from './components/Hero/Carousel';
-import CustomNavbar from './components/Header/Navbar';
+import {Routes, Route } from 'react-router-dom';
+import HomePage from './components/pages/HomePage.js';
+import AboutPage from './components/pages/AboutPage.js';
+import ContactPage from './components/pages/ContactPage.js';
+import ServicePage from './components/pages/ServicePage.js';
+import ProductPage from './components/pages/ProductPage.js';
+import BlogPage from './components/pages/BlogPage.js';
+import { Whoops404 } from './components/pages/pages.js'
 
 function App() {
   return (
-    <div className="App">
-     <CustomNavbar />
-     <CarouselFade />
-     <AboutUs />
-     <Cards />
-     <Contact />
-     <Footer />
+    <div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services" element={<ServicePage />} />
+        <Route path="*" element={<Whoops404 />} />
+      </Routes>
     </div>
   );
 }
