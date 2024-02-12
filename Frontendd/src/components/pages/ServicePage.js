@@ -2,14 +2,13 @@
 import React from 'react'
 import Footer from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
+import Cards from '../Cards/Cards'
 
 function ServicePage() {
   return (
     <div className='ServicePage'>
         <Navbar />
-        <div>
-            <h2>Service page Coming soon ... </h2>
-        </div>
+        <Cards />
         <Footer />
     </div>
   )

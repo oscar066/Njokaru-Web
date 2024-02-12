@@ -1,0 +1,41 @@
+
+.blog-container {
+    padding: 20px;
+  }
+  
+  .blog-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333; 
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px; 
+  }
+  
+  .blog-post {
+    flex: 1;
+    margin: 10px; 
+    padding: 20px;
+    background-color: #f8f9fa; 
+    border-radius: 8px;
+  }
+  
+  .post-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #1c6204; 
+  }
+  
+  .post-date {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .post-content {
+    font-size: 16px;
+    color: #555; 
+  }
+  
