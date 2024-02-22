@@ -1,43 +1,56 @@
 
+/* Cards.css */
+
+.services-header {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f201f; 
+  margin-bottom: 30px;
+  font-family: 'Open Sans', sans-serif; /* Change the font family */
+}
+
 .services-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    justify-content: space-around;
-    padding: 40px;
-  }
-  
-  .service-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .service-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .service-icon {
-    font-size: 36px;
-    margin-bottom: 10px;
-    color: #4CAF50; /* Green color for icons */
-  }
-  
-  .service-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .service-description {
-    font-size: 16px;
-    color: #555;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.service-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%; 
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.service-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #4CAF50; /* Green color for icons */
+}
+
+.service-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.service-description {
+  font-size: 16px;
+  color: #555;
+}
