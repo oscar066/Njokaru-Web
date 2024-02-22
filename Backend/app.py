@@ -20,7 +20,7 @@ mail = Mail(app)
 
 @app.route('/')
 def index():
-    return '<h1>Hello World!</h1>'
+    return '<h1>Hello Oscar!</h1>'
 
 @app.route('/api/data')
 def get_data():
