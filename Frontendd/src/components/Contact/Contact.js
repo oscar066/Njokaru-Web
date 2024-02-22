@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './Contact.css';
 
@@ -21,13 +20,28 @@ function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission to an email (in a real-world scenario, you'd need a server for this)
-    // You can use a service like EmailJS or set up your own server to handle form submissions and send emails.
-    // For now, we'll just log the data and display a confirmation message.
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        console.error('Failed to submit form:', result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -96,3 +110,5 @@ function Contact() {
 }
 
 export default Contact;
+
+
