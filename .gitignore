@@ -6,3 +6,6 @@ node_modules/
 
 Frontendd/node_modules
 
+# ignore the Backend dependencies 
+
+Backend/__pycache__/
