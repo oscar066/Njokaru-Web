@@ -8,11 +8,12 @@
 }
 
 .carousel-caption {
-  background-color: #1c6204; /* Semi-transparent black background */
+  background-color: rgba(28, 98, 4, 0.6); /* Semi-transparent green background */
   padding: 20px;
   border-radius: 8px;
   text-align: center;
 }
+
 
 .carousel-caption h2 {
   color: #fff;
