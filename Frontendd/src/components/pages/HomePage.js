@@ -4,13 +4,14 @@ import Cards from '../Cards/Cards'
 import Contact from '../Contact/Contact'
 import Footer1 from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
-import Carousel from '../../components/Hero/Carousel'
+//import Carousel from '../../components/Hero/Carousel'
+import ModernCarousel from '../../components/Hero/Carousel'
 
 function HomePage() {
   return (
     <div className="Home">
      <Navbar />
-     <Carousel />
+     <ModernCarousel />
      <AboutUs />
      <Cards />
      <Contact />
