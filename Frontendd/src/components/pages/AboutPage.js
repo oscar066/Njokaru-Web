@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Footer from '../Footer/Footer'
+import Footer1 from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
 import AboutUs from '../AboutUs/AboutUs'
 
@@ -9,7 +9,7 @@ function AboutPage() {
     <div className='AboutPage'>
         <Navbar />
         <AboutUs />
-        <Footer />
+        <Footer1 />
     </div>
   )
 }

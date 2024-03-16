@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Footer from '../Footer/Footer'
+import Footer1 from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
 import BlogFake from '../Blogs/BlogFake'
 
@@ -9,7 +9,7 @@ function BlogPage() {
     <div className='BlogPage'>
         <Navbar />
         <BlogFake />
-        <Footer />
+        <Footer1 />
     </div>
   )
 }
