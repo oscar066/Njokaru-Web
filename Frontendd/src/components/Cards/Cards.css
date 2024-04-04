@@ -1,12 +1,28 @@
-
 /* Cards.css */
-.services-header {
+.services-wrapper {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.service-heading {
   text-align: center;
-  font-size: 32px;
+  margin-bottom: 40px; 
+}
+
+.services-header {
+  font-size: 2.5rem;
   font-weight: bold;
-  color: #1f201f; 
-  margin-bottom: 30px;
-  font-family: 'Open Sans', sans-serif; /* Change the font family */
+  color: #333;
+  font-family: 'Roboto', sans-serif; 
+}
+
+.highlight {
+  color: #86b95f; 
+}
+
+.service-heading-sub {
+  font-size: 1.5rem;
+  color: #666;
 }
 
 .services-container {
@@ -22,7 +38,7 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
   display: flex;
   flex-direction: column;
@@ -32,24 +48,24 @@
 }
 
 .service-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .service-icon {
-  font-size: 36px;
+  font-size: 2rem; 
   margin-bottom: 10px;
-  color: #4CAF50; /* Green color for icons */
+  color: #4CAF50;; 
 }
 
 .service-title {
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-bottom: 10px;
   font-weight: bold;
   color: #333;
 }
 
 .service-description {
-  font-size: 16px;
+  font-size: 1rem;
   color: #555;
 }
