@@ -8,6 +8,10 @@ function AboutUs() {
   return (
     <section id="about" className="about-us">
       <Container>
+        <div className="about-heading">
+          <h1 className="about-heading-main">Welcome to <span className="highlight">NJOKARU</span></h1>
+          <p className="about-heading-sub">Njokaru: Crafting nature's canvas one garden at a time</p>
+        </div>
         <Row className="align-items-center">
           <Col md={6} className="about-image-container">
             <img src={aboutImage} alt="About us" className="about-image" />
