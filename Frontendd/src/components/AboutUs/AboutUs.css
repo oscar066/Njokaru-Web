@@ -1,11 +1,31 @@
 
 .about-us {
   padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.about-heading {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-heading-main {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.highlight {
+  color: #86b95f; /* Highlight color */
+}
+
+.about-heading-sub {
+  font-size: 1.5rem;
+  color: #666;
 }
 
 .about-content {
-  color: #333;
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
 }
 
 .about-image-container {
@@ -20,8 +40,10 @@
 }
 
 .about-content h2 {
-  font-size: 2.5rem;
   margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .about-content p {
@@ -31,7 +53,15 @@
 }
 
 @media (max-width: 767px) {
-  .about-image-container {
-    margin-bottom: 40px;
+  .about-heading-main {
+    font-size: 2.5rem;
+  }
+
+  .about-heading-sub {
+    font-size: 1.2rem;
+  }
+
+  .about-content h2 {
+    font-size: 2.5rem;
   }
 }

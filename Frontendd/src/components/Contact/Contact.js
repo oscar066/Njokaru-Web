@@ -79,15 +79,20 @@ function Contact() {
             required
           />
 
+      
           <label htmlFor='serviceType'>Service Type:</label>
-          <input
-            type='text'
+          <select
             id='serviceType'
             name='serviceType'
             value={formData.serviceType}
             onChange={handleChange}
             required
-          />
+          >
+            <option value=''>Select a service type</option>
+            <option value='Type 1'>Grass Triming</option>
+            <option value='Type 2'>Lawn mowing</option>
+            <option value='Type 3'>Soil treatment</option>
+          </select>
 
           <label htmlFor='message'>Message:</label>
           <textarea
