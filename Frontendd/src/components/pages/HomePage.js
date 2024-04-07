@@ -7,6 +7,8 @@ import Navbar from '../Header/Navbar'
 //import Carousel from '../../components/Hero/Carousel'
 import ModernCarousel from '../../components/Hero/Carousel'
 import WhyUs from '../WhyUs/WhyUs'
+import Testimonials from '../Testimonials/Testimonials'
+
 
 function HomePage() {
   return (
@@ -16,7 +18,7 @@ function HomePage() {
      <AboutUs />
      <WhyUs />
      <Cards />
-     
+     <Testimonials />
      <Footer />
     </div>
   )
