@@ -1,0 +1,28 @@
+.why-us {
+    background-color: #f8f9fa;
+  }
+  
+  .why-us h2 {
+    color: #1c6204;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Roboto', sans-serif; 
+  }
+  
+  .why-us p {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .why-us ul {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+ 
+  
