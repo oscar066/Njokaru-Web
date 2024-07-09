@@ -9,3 +9,5 @@ Frontendd/node_modules
 # ignore the Backend dependencies 
 
 Backend/__pycache__/
+
+../myenv
