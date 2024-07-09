@@ -10,4 +10,8 @@ Frontendd/node_modules
 
 Backend/__pycache__/
 
-../myenv
+myenv
+
+# ignore DS_stores
+
+.DS_Store
