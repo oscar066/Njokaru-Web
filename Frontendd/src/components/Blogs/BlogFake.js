@@ -1,8 +1,6 @@
 
-// BlogFake.js
 import React from 'react';
 import { faker } from '@faker-js/faker';
-import './BlogFake.css';
 
 function BlogFake() {
   // Generate fake blog posts with avatars and usernames
@@ -16,21 +14,21 @@ function BlogFake() {
   }));
 
   return (
-    <div className="blog-container">
-      <h2 className="blog-title">Blog</h2>
-      <div className="row">
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-4xl font-bold mb-8 text-gray-800">Blog</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {blogPosts.map((post) => (
-          <div key={post.id} className="col-md-6">
-            <div className="blog-post">
-              <div className="post-header">
-                <img src={post.avatar} alt="Avatar" className="avatar" />
-                <div className="user-details">
-                  <p className="username">{post.username}</p>
-                  <p className="post-date">{post.date}</p>
+          <div key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-4" />
+                <div>
+                  <p className="font-semibold text-gray-800">{post.username}</p>
+                  <p className="text-sm text-gray-600">{post.date}</p>
                 </div>
               </div>
-              <h3 className="post-title">{post.title}</h3>
-              <p className="post-content">{post.content}</p>
+              <h3 className="text-xl font-bold mb-2 text-green-700">{post.title}</h3>
+              <p className="text-gray-700 leading-relaxed">{post.content}</p>
             </div>
           </div>
         ))}
@@ -40,4 +38,3 @@ function BlogFake() {
 }
 
 export default BlogFake;
-
