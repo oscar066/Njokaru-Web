@@ -5,17 +5,7 @@ node_modules/
 # ignore node modules in the Frontendd folder
 
 Frontendd/node_modules
-Frontendd/src/Assets/.image1.jpg.icloud
 
 # ignore the Backend dependencies 
 
 Backend/__pycache__/
-Backend/.app.py.icloud
-
-Backend/Pipfile.lock
-Backend/db.sqlite3
-
-# ignore DS_stores
-
-.DS_Store
-
