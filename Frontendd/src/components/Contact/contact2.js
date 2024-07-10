@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Contact.css';
+// import './Contact.css';
 
 function Contact() {
   const [isExpanded, setIsExpanded] = useState(false); // Track if the contact form is expanded
