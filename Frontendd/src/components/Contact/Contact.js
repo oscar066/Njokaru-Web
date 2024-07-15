@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import landscapeImage from '../../Assets/image1.jpg'; 
+import landscapeImage from '../../Assets/eden-phase-1.jpeg'; 
 
 const InputField = ({ label, name, type, value, onChange, required }) => (
   <div className="mb-4">
@@ -44,7 +44,7 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch('http://localhost:8000/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
