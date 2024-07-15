@@ -35,6 +35,7 @@ function CustomNavbar() {
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
             <Link to="/services" className="nav-link">Services</Link>
+            <Link to="/products" className="nav-link">Products</Link>
             <Link to="/blog" className="nav-link">Blog</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
           </Nav>
