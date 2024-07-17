@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import landscapeImage from '../../Assets/devon.jpg'; 
 
 const InputField = ({ label, name, type, value, onChange, required }) => (
   <div className="mb-4">
@@ -77,14 +76,16 @@ const Contact = () => {
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="relative flex items-center justify-center bg-cover bg-center rounded-lg" style={{ backgroundImage: `url(${landscapeImage})` }}>
-          <div className="absolute inset-0 bg-green-700 bg-opacity-50 flex items-center justify-center rounded-lg">
-            <div className="text-white p-6 text-center">
-              <h2 className="text-3xl font-bold mb-4">NJOKARU</h2>
-              <p className="mb-4">NJOKARU provides professional landscaping services, ensuring your lawn looks its best all year round. From grass trimming to soil treatment, our experts have you covered.</p>
-              <p className="mb-4">Contact us today to schedule an appointment and transform your outdoor space into a beautiful and serene environment.</p>
-            </div>
-          </div>
+        <div className="relative flex items-center justify-center bg-cover bg-center rounded-lg">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d720.642767292865!2d36.8292854492139!3d-1.1833284212049473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f3d9486a3f407%3A0xb417fa1b9cc667!2sEdenville%20Villas%20Phase%201!5e1!3m2!1sen!2ske!4v1721255264803!5m2!1sen!2ske"
+            width="100%"
+            height="100%"
+            style={{ border: 0, borderRadius: '8px' }}
+            allowFullScreen=""
+            loading="lazy"
+            title="Business Location"
+          ></iframe>
         </div>
         <div className="bg-white p-8 shadow-md rounded-lg">
           <h2 className="text-3xl font-bold text-center mb-8 text-green-700">Contact Us</h2>
