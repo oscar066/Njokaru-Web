@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import landscapeImage from '../../Assets/eden-phase-1.jpeg'; 
+import landscapeImage from '../../Assets/devon.jpg'; 
 
 const InputField = ({ label, name, type, value, onChange, required }) => (
   <div className="mb-4">
