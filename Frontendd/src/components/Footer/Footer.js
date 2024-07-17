@@ -1,12 +1,12 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaPhone, FaEnvelope } from 'react-icons/fa';
-import './Footer.css';
+import { FaFacebook, FaTwitter, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
 const footerLinks = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Products', href: '/products' },
 ];
 
 const socialLinks = [
@@ -17,38 +17,42 @@ const socialLinks = [
 
 function Footer() {
   return (
-    <footer className='footer'>
-      <div className='footer-content'>
-        <div className='footer-section'>
-          <h4>Gardening & Maintenance</h4>
-          <p>Creating and maintaining beautiful outdoor spaces.</p>
+    <footer className="bg-customGreen text-white font-sans">
+      <div className="flex flex-wrap justify-between max-w-6xl mx-auto py-10 px-5 space-y-8 md:space-y-0">
+        <div className="w-full md:w-1/4 mb-6">
+          <h4 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">NJOKARU Gardening & Maintenance</h4>
+          <p className="text-gray-300 mb-4">Creating and maintaining beautiful outdoor spaces.</p>
+          <a href="/services" className="text-green-500 hover:text-green-300 transition-colors duration-300">Explore Our Services</a>
         </div>
-        <div className='footer-section'>
-          <h4>Contact Us</h4>
-          <p><FaEnvelope /> njokaru@gardening.com</p>
-          <p><FaPhone /> +254 719686913</p>
+        <div className="w-full md:w-1/4 mb-6">
+          <h4 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">Contact Us</h4>
+          <p className="text-gray-300 mb-2"><FaEnvelope className="inline mr-2" /> njokaru@gardening.com</p>
+          <p className="text-gray-300 mb-2"><FaPhone className="inline mr-2" /> +254 719686913</p>
+          <p className="text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2" /> EdenVille Phase 1, Kiambu, Kenya</p>
+          <p className="text-gray-300 mb-4"><FaClock className="inline mr-2" /> Mon - Fri: 9:00 AM - 5:00 PM</p>
+          <a href="https://maps.app.goo.gl/ds9uHVLvMKUnQND49" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-500 transition-colors duration-300">View on Google Maps</a>
         </div>
-        <div className='footer-section'>
-          <h4>Follow Us</h4>
-          <div className='social-icons'>
+        <div className="w-full md:w-1/4 mb-6">
+          <h4 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">Follow Us</h4>
+          <div className="flex space-x-4">
             {socialLinks.map((link, index) => (
-              <a key={index} href={link.href} target='_blank' rel='noopener noreferrer' aria-label={`Visit our ${link.icon.name.replace('Fa', '')}`}>
+              <a key={index} href={link.href} target='_blank' rel='noopener noreferrer' aria-label={`Visit our ${link.icon.name.replace('Fa', '')}`} className="text-2xl transition-colors duration-300 hover:text-green-500">
                 <link.icon />
               </a>
             ))}
           </div>
         </div>
-        <div className='footer-section'>
-          <h4>Quick Links</h4>
-          <ul className="footer-links">
+        <div className="w-full md:w-1/4 mb-6">
+          <h4 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">Quick Links</h4>
+          <ul className="space-y-2">
             {footerLinks.map((link, index) => (
-              <li key={index}><a href={link.href}>{link.label}</a></li>
+              <li key={index}><a href={link.href} className="text-gray-300 transition-colors duration-300 hover:text-green-500">{link.label}</a></li>
             ))}
           </ul>
         </div>
       </div>
-      <div className='copyright-section'>
-        <p>&copy; {new Date().getFullYear()} Gardening & Maintenance. All rights reserved.</p>
+      <div className="bg-white text-black text-center py-1">
+        <p className="text-sm text-center py-1">&copy; {new Date().getFullYear()} NJOKARU Gardening & Maintenance. All rights reserved.</p>
       </div>
     </footer>
   );
