@@ -6,7 +6,7 @@ import Footer from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
 //import Carousel from '../../components/Hero/Carousel'
 import ModernCarousel from '../../components/Hero/Carousel'
-import WhyUs from '../WhyUs/WhyUs'
+//import WhyUs from '../WhyUs/WhyUs'
 import Testimonials from '../Testimonials/Testimonials'
 
 
@@ -15,8 +15,7 @@ function HomePage() {
     <div className="Home">
      <Navbar />
      <ModernCarousel />
-     <AboutUs />
-     <WhyUs />
+     <AboutUs />    
      <Cards />
      <Testimonials />
      <Footer />
