@@ -1,7 +1,7 @@
 
 .navbar {
     background-color: #1c6204;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out, padding 0.3s ease-in-out;
     padding: 15px 0;
   }
   

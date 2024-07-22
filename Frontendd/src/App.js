@@ -6,7 +6,9 @@ import ContactPage from './components/pages/ContactPage.js';
 import ServicePage from './components/pages/ServicePage.js';
 import ProductPage from './components/pages/ProductPage.js';
 import BlogPage from './components/pages/BlogPage.js';
-import { Whoops404 } from './components/pages/pages.js'
+import { Whoops404 } from './components/pages/pages.js';
+import Login from './components/Auth/Login.js';
+import Signup from './components/Auth/SignUp.js';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/products" element={<ProductPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<ServicePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Whoops404 />} />
       </Routes>
     </div>
