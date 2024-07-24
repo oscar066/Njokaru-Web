@@ -1,3 +1,5 @@
+// src/components/Login.js
+
 import React, { useState } from 'react';
 
 const Login = () => {
@@ -16,7 +18,10 @@ const Login = () => {
 
     if (response.ok) {
       const data = await response.json();
-      // Handle success (e.g., save token, redirect)
+      localStorage.setItem('token', data.key);  // Save the token
+      // Redirect to the home page 
+    } else {
+      // Handle error
     }
   };
 
