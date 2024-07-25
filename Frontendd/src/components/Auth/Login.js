@@ -1,26 +1,52 @@
 // src/components/Login.js
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/auth/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    let hasError = false;
 
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem('token', data.key);  // Save the token
-      // Redirect to the home page 
+    if (!email) {
+      setEmailError('Email is required');
+      hasError = true;
+    } else if (!email.includes('@')) {
+      setEmailError('Email entered is not valid');
+      hasError = true;
     } else {
+      setEmailError('');
+    }
+
+    if (!password) {
+      setPasswordError('Password is required');
+      hasError = true;
+    } else {
+      setPasswordError('');
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/auth/login/', {
+        email,
+        password,
+      });
+      localStorage.setItem('token', response.data.key); // Save the token
+      navigate('/'); // Redirect to the home page
+    } catch (error) {
+      console.error('There was an error!', error);
       // Handle error
     }
   };
@@ -42,19 +68,38 @@ const Login = () => {
               className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
               required
             />
+            {emailError && (
+              <span className="text-red-500 text-base py-1 my-1">{emailError}</span>
+            )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label htmlFor="password" className="block text-gray-700">
               Password:
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
-              required
-            />
+            <div className="flex items-center">
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setPasswordVisible((prev) => !prev)}
+                className="absolute right-2 text-gray-800"
+              >
+                {passwordVisible ? (
+                  <BsEyeFill size={20} />
+                ) : (
+                  <BsEyeSlashFill size={20} />
+                )}
+              </button>
+            </div>
+            {passwordError && (
+              <span className="text-red-500 text-base py-1 my-1">{passwordError}</span>
+            )}
           </div>
           <button
             type="submit"

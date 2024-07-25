@@ -1,25 +1,64 @@
 // src/components/Signup.js
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/register/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, username, password }),
-    });
+    let hasError = false;
 
-    if (response.ok) {
-      // Redirect to login page or auto-login
+    if (!email) {
+      setEmailError('Email is required');
+      hasError = true;
+    } else if (!email.includes('@')) {
+      setEmailError('Email entered is not valid');
+      hasError = true;
     } else {
+      setEmailError('');
+    }
+
+    if (!username) {
+      setUsernameError('Username is required');
+      hasError = true;
+    } else {
+      setUsernameError('');
+    }
+
+    if (!password) {
+      setPasswordError('Password is required');
+      hasError = true;
+    } else if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters');
+      hasError = true;
+    } else {
+      setPasswordError('');
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/register/', {
+        email,
+        username,
+        password,
+      });
+      navigate('/login'); // Redirect to login page or auto-login
+    } catch (error) {
+      console.error('There was an error!', error);
       // Handle error
     }
   };
@@ -28,7 +67,7 @@ const Signup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-8 text-center">Signup</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignUp}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Email:
@@ -41,6 +80,9 @@ const Signup = () => {
               className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
               required
             />
+            {emailError && (
+              <span className="text-red-500 text-base py-1 my-1">{emailError}</span>
+            )}
           </div>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">
@@ -54,19 +96,38 @@ const Signup = () => {
               className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
               required
             />
+            {usernameError && (
+              <span className="text-red-500 text-base py-1 my-1">{usernameError}</span>
+            )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label htmlFor="password" className="block text-gray-700">
               Password:
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
-              required
-            />
+            <div className="flex items-center">
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-customGreen"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setPasswordVisible((prev) => !prev)}
+                className="absolute right-2 text-gray-800"
+              >
+                {passwordVisible ? (
+                  <BsEyeFill size={20} />
+                ) : (
+                  <BsEyeSlashFill size={20} />
+                )}
+              </button>
+            </div>
+            {passwordError && (
+              <span className="text-red-500 text-base py-1 my-1">{passwordError}</span>
+            )}
           </div>
           <button
             type="submit"
