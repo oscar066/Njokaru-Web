@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
+ #   'dj_rest_auth.registration',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -134,10 +135,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.accounts.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # You can change this as per your requirement
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
