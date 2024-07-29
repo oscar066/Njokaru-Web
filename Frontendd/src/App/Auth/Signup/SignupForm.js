@@ -49,7 +49,7 @@ const SignupForm = () => {
     }
 
     try {
-      await axios.post('http://localhost:8000/api/register/', {
+      await axios.post('http://localhost:8000/api/accounts/register/', {
         email,
         username,
         password,
