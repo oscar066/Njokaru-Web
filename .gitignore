@@ -19,3 +19,12 @@ Backend/db.sqlite3
 
 .DS_Store
 
+# Ignore cloud stored images 
+Frontendd/src/Assets/.dan.jpg.icloud
+Frontendd/src/Assets/.daniel-watson.jpg.icloud
+Frontendd/src/Assets/.daniel.jpg.icloud
+Frontendd/src/Assets/.devon.jpg.icloud
+Frontendd/src/Assets/.jason-dent.jpg.icloud
+Frontendd/src/Assets/.victor.jpg.icloud
+
+
