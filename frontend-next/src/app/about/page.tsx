@@ -1,10 +1,12 @@
+'use client';
 
 import React from 'react';
+import AboutUs from '../components/About/about';
 
 const AboutPage: React.FC = () => {
     return (
-      <div className="pt-16"> 
-        <h1 className="text-3xl text-center">About Page</h1>
+      <div className="pt-8"> 
+        <AboutUs />
       </div>
     );
   };
