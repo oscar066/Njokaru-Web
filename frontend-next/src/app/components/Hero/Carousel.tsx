@@ -1,12 +1,10 @@
-
-'use client';
-
+//'use client';
 import React, { useState, useEffect } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import image1 from '../../public/Assets/eden-phase-1.jpeg';
-import image3 from '../../public/Assets/daniel.jpg';
+import image1 from '../../../../public/Assets/daniel.jpg';
+import image2 from '../../../../public/Assets/eden-phase-1.jpeg';
 
 interface CarouselItem {
   image: StaticImageData;
@@ -16,17 +14,17 @@ interface CarouselItem {
 
 const carouselItems: CarouselItem[] = [
   {
-    image: image3,
+    image: image1,
     title: 'Transforming Your Outdoor Space',
     description: 'Enhance the beauty of your surroundings with our expert gardening and maintenance services.',
   },
   {
-    image: image1,
+    image: image2,
     title: 'Expert Lawn Care Solutions',
     description: 'Keep your lawn healthy and vibrant with our professional lawn care services.',
   },
   {
-    image: image3,
+    image: image1,
     title: 'Craft your landscape',
     description: 'Maintain the health and aesthetics of your trees with our expert pruning services.',
   },
@@ -60,8 +58,8 @@ const ImprovedCarousel: React.FC = () => {
           <Image
             src={item.image}
             alt={item.title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover'}}
             className="w-full h-full"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
