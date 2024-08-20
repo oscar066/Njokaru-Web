@@ -1,12 +1,16 @@
-import Image from "next/image";
+'use client';
+
 import React from 'react';
 import ImprovedCarousel from "./components/Hero/Carousel";
+import AboutUs from "./components/About/about";
+import Services from "./components/Services/services";
 
 const HomePage: React.FC = () => {
   return (
-    <div className="pt-16"> 
+    <div className='pt-8'> 
       <ImprovedCarousel />
-      <h1 className="text-3xl text-center">Hello World from Home Page</h1>
+      <AboutUs />
+      <Services />
     </div>
   );
 };
