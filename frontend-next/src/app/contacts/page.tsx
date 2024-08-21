@@ -1,10 +1,12 @@
+'use client';
 
 import React from 'react';
+import Contact from '../components/Contact/contact';
 
 const ContactPage: React.FC = () => {
     return (
-      <div className="pt-16"> 
-        <h1 className="text-3xl text-center">Calling the contact Page</h1>
+      <div className="pt-2"> 
+        <Contact />
       </div>
     );
   };
