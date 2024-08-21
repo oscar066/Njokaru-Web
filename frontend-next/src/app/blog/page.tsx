@@ -1,10 +1,12 @@
 
 import React from 'react';
 
+import BlogFake from '../components/Blog/BlogFake';
+
 const BlogPage: React.FC = () => {
     return (
-      <div className="pt-16"> 
-        <h1 className="text-3xl text-center">Blog Page</h1>
+      <div className="pt-8"> 
+        <BlogFake />
       </div>
     );
   };
