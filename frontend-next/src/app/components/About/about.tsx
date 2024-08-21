@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+
 import aboutImage from '../../../../public/Assets/devon.jpg';
 
 const AboutUs = () => {
