@@ -1,7 +1,6 @@
 import { FaLeaf, FaCut, FaSprayCan, FaTree, FaBroom, FaTint, FaBug } from 'react-icons/fa';
-import ServiceData from './services';
 
-const cardData = [
+const serviceData = [
   {
     id: 1,
     title: 'Garden Design',
@@ -52,4 +51,4 @@ const cardData = [
   }
 ];
 
-export default cardData;
+export default serviceData;
