@@ -18,24 +18,26 @@ const AboutUs = () => {
             Crafting nature's canvas one garden at a time
           </p>
         </div>
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+          <div className="relative">
             <Image 
               src={aboutImage} 
-              alt="Team working on garden design" 
+              alt="A team member working on a garden design, showcasing our dedication and expertise."
               className="rounded-lg shadow-2xl max-w-full h-auto"
               width={800}
               height={600}
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-500 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-lg">10+ Years</span>
             </div>
           </div>
-          <div className="lg:w-1/2">
+          <div>
             <h2 className="text-3xl font-bold text-gray-800 mb-6 relative inline-block">
               About Us
             </h2>
-            <div className="space-y-4 text-gray-700 mb-8">
+            <div className="space-y-4 text-gray-700 mb-4 leading-relaxed">
               <p>
                 Welcome to NJOKARU, where we bring your outdoor spaces to life. Our team of dedicated
                 gardeners and maintenance professionals is passionate about creating and maintaining
@@ -54,7 +56,9 @@ const AboutUs = () => {
             </div>
             <button 
               onClick={() => router.push('/about')}
-              className="mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+              className="mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+              aria-label="Learn more about NJOKARU"
+            >
               Learn More
             </button>
           </div>
