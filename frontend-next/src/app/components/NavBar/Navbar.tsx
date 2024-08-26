@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/">
-              <span className="flex-shrink-0 text-white font-bold text-xl">NJOKARU</span>
+              <span className="flex-shrink-0 text-white font-bold text-xl font-serif">NJOKARU</span>
             </Link>
           </div>
           <div className="hidden md:block">
