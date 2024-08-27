@@ -12,7 +12,7 @@ const AboutUs = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Welcome to <span className="text-green-600">NJOKARU</span>
+            Welcome to <span className="text-green-700">NJOKARU</span>
           </h1>
           <p className="text-xl text-gray-600 italic">
             Crafting nature's canvas one garden at a time
