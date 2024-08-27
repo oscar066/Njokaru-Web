@@ -1,9 +1,10 @@
 'use client';
-
 import React from 'react';
+
 import ImprovedCarousel from "./components/Hero/Carousel";
 import AboutUs from "./components/About/about";
 import Services from "./components/Services/services";
+import Testimonials from './components/Testimonials/testimonials';
 
 const HomePage: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage: React.FC = () => {
       <ImprovedCarousel />
       <AboutUs />
       <Services />
+      <Testimonials />
     </div>
   );
 };
