@@ -19,7 +19,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, isLoggedIn, handleLogou
         <NavItem href="/services">Services</NavItem>
         <NavItem href="/products">Products</NavItem>
         <NavItem href="/blog">Blog</NavItem>
-        <NavItem href="/contact">Contact</NavItem>
+        <NavItem href="/contacts">Contact</NavItem>
         {isLoggedIn ? (
           <>
             <NavItem href="/profile">Profile</NavItem>

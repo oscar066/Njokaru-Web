@@ -13,7 +13,7 @@ const NavItem: React.FC<NavItemProps> = ({ href, children }) => {
   return (
     <Link href={href}>
       <span
-        className={`text-white hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium font-serif ${
+        className={`text-white hover:text-green-500 px-3 py-2 rounded-md text-opacity-85 font-medium font-serif ${
           pathname === href ? 'bg-[#164f03]' : ''
         }`}
       >

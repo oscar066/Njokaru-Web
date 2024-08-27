@@ -20,7 +20,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout }) => (
         <NavItem href="/profile">Profile</NavItem>
         <button
           onClick={handleLogout}
-          className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+          className="text-white hover:text-green-500 px-3 py-2 rounded-md text-opacity-85 font-medium"
         >
           Logout
         </button>
