@@ -63,10 +63,10 @@ const ImprovedCarousel: React.FC = () => {
             className="w-full h-full"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="text-center text-white px-4">
+            <div className="text-center text-white px-4 text-opacity-80">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">{item.title}</h2>
               <p className="text-lg md:text-xl mb-8">{item.description}</p>
-              <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+              <button className="bg-[#1c6204] hover:bg-green-400 text-white text-opacity-80 font-bold py-2 px-6 rounded-full transition duration-300">
                 Learn More
               </button>
             </div>
