@@ -118,8 +118,8 @@ const Contact: React.FC = () => {
             title="Business Location"
           ></iframe>
         </div>
-        <div className="bg-white p-8 shadow-md rounded-lg">
-          <h2 className="text-3xl font-bold text-center mb-8 text-green-700">Contact Us</h2>
+        <div className="bg-white p-8 shadow-lg rounded-lg">
+          <h2 className="text-3xl font-bold text-center mb-8 text-green-700 font-serif">Contact Us</h2>
           {submitStatus && (
             <div 
               className={`mb-6 p-4 rounded-md ${
@@ -129,7 +129,7 @@ const Contact: React.FC = () => {
               {submitStatus.message}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 font-serif">
             <InputField
               label="Full Name"
               name="fullName"
@@ -196,7 +196,7 @@ const Contact: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out flex items-center justify-center"
+              className="w-full bg-green-700 text-white font-serif py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
