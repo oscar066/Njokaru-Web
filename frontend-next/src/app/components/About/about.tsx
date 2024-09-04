@@ -29,8 +29,8 @@ const AboutUs = () => {
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">10+ Years</span>
+            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-700 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-lg">10+ Yrs</span>
             </div>
           </div>
           <div>
