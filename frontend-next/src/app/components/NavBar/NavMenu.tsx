@@ -27,8 +27,8 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout }) => (
       </>
     ) : (
       <>
-        <NavItem href="/login">Login</NavItem>
-        <NavItem href="/signup">Sign Up</NavItem>
+        <NavItem href="/auth/login">Login</NavItem>
+        <NavItem href="/auth/signup">Sign Up</NavItem>
       </>
     )}
   </div>
