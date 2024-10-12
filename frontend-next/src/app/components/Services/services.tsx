@@ -10,7 +10,7 @@ interface ServiceData {
 
 const Services: React.FC = () => {
   return (
-    <div className="bg-gray-100 py-16">
+    <div className="py-20 bg-gradient-to-b from-green-50 to-gray-100">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h3 className="text-4xl font-bold text-gray-800 mb-2">
