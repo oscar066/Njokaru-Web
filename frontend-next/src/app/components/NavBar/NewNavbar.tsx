@@ -3,13 +3,19 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface NavItemProps {
   href: string
@@ -23,8 +29,8 @@ const NavItem: React.FC<NavItemProps> = ({ href, children, onClick }) => {
   return (
     <Link href={href} onClick={onClick}>
       <span
-        className={`text-white hover:text-green-500 px-3 py-2 rounded-md text-opacity-85 font-medium font-serif ${
-          pathname === href ? 'bg-[#164f03]' : ''
+        className={`text-white hover:text-green-300 px-3 py-2 rounded-md text-opacity-85 font-medium font-serif ${
+          pathname === href ? 'bg-green-700' : ''
         }`}
       >
         {children}
@@ -63,18 +69,43 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, o
   const allItems = [...menuItems, ...authItems]
 
   return (
-    <div className={`${isMobile ? 'flex flex-col space-y-2' : 'flex items-baseline space-x-4'}`}>
-      {allItems.map((item) => (
-        <NavItem key={item.href} href={item.href} onClick={() => {
-          if (item.onClick) item.onClick()
-          if (onItemClick) onItemClick()
-        }}>
+    <div className={`${isMobile ? 'flex flex-col space-y-4' : 'flex items-center space-x-4'}`}>
+      {menuItems.map((item) => (
+        <NavItem key={item.href} href={item.href} onClick={onItemClick}>
           {item.label}
         </NavItem>
       ))}
+      {isMobile ? (
+        authItems.map((item) => (
+          <NavItem key={item.href} href={item.href} onClick={() => {
+            if (item.onClick) item.onClick()
+            if (onItemClick) onItemClick()
+          }}>
+            {item.label}
+          </NavItem>
+        ))
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="text-white hover:text-green-300">
+              Account <ChevronDown className="ml-1 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            {authItems.map((item) => (
+              <DropdownMenuItem key={item.href} asChild>
+                <Link href={item.href} onClick={item.onClick}>
+                  {item.label}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   )
 }
+
 
 const NavBar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
@@ -92,7 +123,7 @@ const NavBar: React.FC = () => {
   }, [router])
 
   return (
-    <nav className="fixed w-full z-10 bg-[#1c6204] shadow-2xl transition-all duration-300">
+    <nav className="fixed w-full z-10 bg-green-800 shadow-2xl transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -111,7 +142,7 @@ const NavBar: React.FC = () => {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#1c6204]">
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-green-800">
                 <NavMenu isLoggedIn={isLoggedIn} handleLogout={handleLogout} isMobile onItemClick={() => {}} />
               </SheetContent>
             </Sheet>
