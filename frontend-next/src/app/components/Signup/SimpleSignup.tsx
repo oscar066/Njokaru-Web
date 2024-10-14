@@ -18,8 +18,8 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center bg-green-50">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
+    <div className="min-h-screen w-full flex items-center justify-center bg-green-50">
+      <div className="w-full max-w-md px-4 py-8 flex-col">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="flex flex-col space-y-2 text-center mb-6">
             <UserPlus className="mx-auto h-12 w-12 text-green-700" />
