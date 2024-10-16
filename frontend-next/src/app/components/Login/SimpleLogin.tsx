@@ -1,19 +1,47 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { LogIn, Loader2, UserCircle2 } from 'lucide-react'
+import { useState } from 'react';
+import axios from 'axios';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { LogIn, Loader2, UserCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { FaGoogle } from "react-icons/fa";
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
 
   async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage(null);
 
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    try {
+      // Send login request to the server
+      const response = await axios.post('http://localhost:8000/api/accounts/auth/login/', {
+        email,
+        password,
+      });
+
+      // Handle successful login (e.g., redirect to a dashboard)
+      console.log('Login successful:', response.data);
+
+      // Redirect to homepage
+      router.push('/');
+
+    } catch (error) {
+      // Handle login errors
+      console.error('Login failed:', error);
+      setErrorMessage('Login failed. Please check your email and password.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -23,19 +51,18 @@ export default function LoginPage() {
           <div className="flex flex-col space-y-2 text-center mb-6">
             <UserCircle2 className="mx-auto h-12 w-12 text-green-700" />
             <h1 className="text-2xl font-semibold tracking-tight text-green-700">Welcome to NJOKARU</h1>
-            <p className="text-sm text-green-600">
-              Enter your email to sign in to your account
-            </p>
+            <p className="text-sm text-green-600">Enter your email to sign in to your account</p>
           </div>
+          {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
           <div className="grid gap-6">
             <form onSubmit={onSubmit}>
               <div className="grid gap-2">
                 <div className="grid gap-1">
-                  <Label className="sr-only text-green-700" htmlFor="email">
-                    Email
-                  </Label>
+                  <Label className="sr-only text-green-800" htmlFor="email">Email</Label>
                   <Input
                     id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
                     type="email"
                     autoCapitalize="none"
@@ -45,20 +72,26 @@ export default function LoginPage() {
                     className="border-green-300 focus:border-green-500 focus:ring-green-500"
                   />
                 </div>
-                <div className="grid gap-1">
-                  <Label className="sr-only text-green-700" htmlFor="password">
-                    Password
-                  </Label>
+                <div className="grid gap-1 relative">
+                  <Label className="sr-only text-green-800" htmlFor="password">Password</Label>
                   <Input
                     id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoCapitalize="none"
                     autoComplete="current-password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="border-green-300 focus:border-green-500 focus:ring-green-500"
+                    className="border-green-300 focus:border-green-500 focus:ring-green-500 pr-10"
                   />
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                  </div>
                 </div>
                 <Button disabled={isLoading} className="bg-green-700 hover:bg-green-800 text-white">
                   {isLoading ? (
@@ -75,43 +108,33 @@ export default function LoginPage() {
                 <span className="w-full border-t border-green-300" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-green-600">
-                  Or continue with
-                </span>
+                <span className="bg-white px-2 text-green-600">Or continue with</span>
               </div>
             </div>
             <Button variant="outline" type="button" disabled={isLoading} className="border-green-300 text-green-700 hover:bg-green-100">
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                  <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                </svg>
-              )}{" "}
+                <FaGoogle className="mr-2 h-4 w-4" />
+              )}
               Google
             </Button>
           </div>
           <div className="mt-6 text-center">
             <p className="text-sm text-green-600">
-              <a
-                href="/reset-password"
-                className="hover:text-green-800 underline underline-offset-4"
-              >
+              <Link href="/reset-password" className="hover:text-green-800 underline underline-offset-4">
                 Forgot your password?
-              </a>
+              </Link>
             </p>
             <p className="mt-2 text-sm text-green-600">
               Don't have an account?{" "}
-              <a
-                href="/signup"
-                className="hover:text-green-800 underline underline-offset-4"
-              >
+              <Link href="/auth/signup" className="hover:text-green-800 underline underline-offset-4">
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
