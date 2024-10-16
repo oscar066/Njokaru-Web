@@ -28,7 +28,7 @@ const socialLinks: SocialLink[] = [
 
 function MainFooter() {
   return (
-    <footer className="bg-[#1c6204] text-white font-serif leading-loose">
+    <footer className="bg-green-800 text-white font-serif leading-loose">
       <div className="flex flex-wrap justify-between max-w-6xl mx-auto py-10 px-5 space-y-8 md:space-y-0">
         <div className="w-full md:w-1/4 mb-4">
           <h4 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">NJOKARU</h4>
