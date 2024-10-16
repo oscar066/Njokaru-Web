@@ -1,20 +1,60 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { LogIn, Loader2, UserPlus } from 'lucide-react'
+import { useState } from 'react';
+import axios from 'axios';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2, UserPlus } from 'lucide-react';
+import Link from "next/link";
+import { FaGoogle } from 'react-icons/fa';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 export default function SignupPage() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage(null);
 
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    // Basic validation
+    if (password !== confirmPassword) {
+      setIsLoading(false);
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
+    try {
+      // Sending the request to the registration endpoint
+      const response = await axios.post('http://localhost:8000/api/accounts/register/', {
+        name,
+        email,
+        password,
+      });
+
+      // Handle the successful registration (you can redirect or show a success message)
+      console.log('Registration successful:', response.data);
+
+      // Reset the form fields
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      
+    } catch (error) {
+      // Handle errors
+      console.error('Registration failed:', error);
+      setErrorMessage('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -28,6 +68,7 @@ export default function SignupPage() {
               Enter your details below to create your account
             </p>
           </div>
+          {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
           <div className="grid gap-6">
             <form onSubmit={onSubmit}>
               <div className="grid gap-2">
@@ -37,6 +78,8 @@ export default function SignupPage() {
                   </Label>
                   <Input
                     id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Full Name"
                     type="text"
                     autoCapitalize="words"
@@ -52,6 +95,8 @@ export default function SignupPage() {
                   </Label>
                   <Input
                     id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
                     type="email"
                     autoCapitalize="none"
@@ -61,35 +106,51 @@ export default function SignupPage() {
                     className="border-green-300 focus:border-green-500 focus:ring-green-500"
                   />
                 </div>
-                <div className="grid gap-1">
+                <div className="grid gap-1 relative">
                   <Label className="sr-only" htmlFor="password">
                     Password
                   </Label>
                   <Input
                     id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoCapitalize="none"
                     autoComplete="new-password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="border-green-300 focus:border-green-500 focus:ring-green-500"
+                    className="border-green-300 focus:border-green-500 focus:ring-green-500 pr-10"
                   />
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                  </div>
                 </div>
-                <div className="grid gap-1">
+                <div className="grid gap-1 relative">
                   <Label className="sr-only" htmlFor="confirm-password">
                     Confirm Password
                   </Label>
                   <Input
                     id="confirm-password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm Password"
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     autoCapitalize="none"
                     autoComplete="new-password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="border-green-300 focus:border-green-500 focus:ring-green-500"
+                    className="border-green-300 focus:border-green-500 focus:ring-green-500 pr-10"
                   />
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                  </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox id="terms" />
@@ -98,9 +159,9 @@ export default function SignupPage() {
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-green-700"
                   >
                     I agree to the{" "}
-                    <a href="/terms" className="text-green-700 underline hover:text-green-800">
+                    <Link href="/terms" className="text-green-700 underline hover:text-green-800">
                       terms and conditions
-                    </a>
+                    </Link>
                   </label>
                 </div>
                 <Button disabled={isLoading} className="bg-green-700 hover:bg-green-800 text-white">
@@ -127,24 +188,19 @@ export default function SignupPage() {
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                  <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                </svg>
-              )}{" "}
+                <FaGoogle className="mr-2 h-4 w-4" />
+              )}
               Google
             </Button>
           </div>
           <p className="mt-6 text-center text-sm text-green-600">
             Already have an account?{" "}
-            <a
-              href="/login"
-              className="text-green-700 hover:text-green-800 underline underline-offset-4"
-            >
+            <Link href="/auth/login" className="text-green-700 hover:text-green-800 underline underline-offset-4">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
