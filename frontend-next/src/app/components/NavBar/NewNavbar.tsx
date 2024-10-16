@@ -1,21 +1,25 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X, ChevronDown } from 'lucide-react'
-import { Button } from "@/components/ui/button"
+import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+
+import Cart from '../../components/Cart/cart';
 
 interface NavItemProps {
   href: string
@@ -66,8 +70,6 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, o
         { href: '/auth/signup', label: 'Sign Up' },
       ]
 
-  const allItems = [...menuItems, ...authItems]
-
   return (
     <div className={`${isMobile ? 'flex flex-col space-y-4' : 'flex items-center space-x-4'}`}>
       {menuItems.map((item) => (
@@ -87,11 +89,11 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, o
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="text-white hover:text-green-300">
+            <Button variant="ghost" className="text-white hover:text-green-800">
               Account <ChevronDown className="ml-1 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuContent align="end" className="w-56 text-green-800">
             {authItems.map((item) => (
               <DropdownMenuItem key={item.href} asChild>
                 <Link href={item.href} onClick={item.onClick}>
@@ -106,10 +108,10 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, o
   )
 }
 
-
 const NavBar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const router = useRouter()
+  const [cartItems, setCartItems] = useState([]) // State for cart items
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -122,6 +124,16 @@ const NavBar: React.FC = () => {
     router.push('/')
   }, [router])
 
+  const handleUpdateCartQuantity = (id: number, quantity: number) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) => (item.id === id ? { ...item, quantity } : item))
+    )
+  }
+
+  const handleRemoveCartItem = (id: number) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id))
+  }
+
   return (
     <nav className="fixed w-full z-10 bg-green-800 shadow-2xl transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -131,8 +143,13 @@ const NavBar: React.FC = () => {
               <span className="flex-shrink-0 text-white font-bold text-xl font-serif">NJOKARU</span>
             </Link>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center space-x-4">
             <NavMenu isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+            <Cart 
+              items={cartItems} 
+              onUpdateQuantity={handleUpdateCartQuantity} 
+              onRemoveItem={handleRemoveCartItem} 
+            />
           </div>
           <div className="md:hidden">
             <Sheet>
@@ -144,6 +161,11 @@ const NavBar: React.FC = () => {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-green-800">
                 <NavMenu isLoggedIn={isLoggedIn} handleLogout={handleLogout} isMobile onItemClick={() => {}} />
+                <Cart 
+                  items={cartItems} 
+                  onUpdateQuantity={handleUpdateCartQuantity} 
+                  onRemoveItem={handleRemoveCartItem} 
+                />
               </SheetContent>
             </Sheet>
           </div>
