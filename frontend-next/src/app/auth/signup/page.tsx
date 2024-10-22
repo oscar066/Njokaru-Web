@@ -5,7 +5,7 @@ import SignupHeader from '../../components/Signup/signupHeader';
 import SignupForm from '../../components/Signup/signupForm';
 import SignupSideImage from '../../components/Signup/signupSideImage';
 import SocialSignupButton from '../../components/Signup/socialSignupButton';
-import SignupPage from '@/app/components/Signup/SimpleSignup';
+import SignupPage from '@/app/components/Signup/signup';
 
 const Signup: React.FC = () => {
   return (
