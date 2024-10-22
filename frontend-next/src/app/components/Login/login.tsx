@@ -1,28 +1,140 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { LogIn, Loader2, UserCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { FaGoogle } from "react-icons/fa";
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
-import React from 'react';
-import LoginSideImage from './loginSideImage';
-import LoginHeader from './loginHeader';
-import LoginForm from './loginForm';
-import SocialLoginButton from './socialLoginButton';
+export default function LoginPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
 
-const Login = () => {
+  async function onSubmit(event: React.SyntheticEvent) {
+    event.preventDefault();
+    setIsLoading(true);
+    setErrorMessage(null);
+
+    try {
+      // Send login request to the server
+      const response = await axios.post('http://localhost:8000/api/accounts/auth/login/', {
+        email,
+        password,
+      });
+
+      // Handle successful login (e.g., redirect to a dashboard)
+      console.log('Login successful:', response.data);
+
+      // Redirect to homepage
+      router.push('/');
+
+    } catch (error) {
+      // Handle login errors
+      console.error('Login failed:', error);
+      setErrorMessage('Login failed. Please check your email and password.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <div className="flex min-h-screen bg-white">
-      <LoginSideImage />
-      <div className="w-1/2 p-8 flex flex-col justify-between">
-        <LoginHeader />
-        <div className="max-w-md mx-auto w-full">
-          <h2 className="text-3xl font-bold mb-6 text-center">Sign In to Your Account</h2>
-          <p className="text-center text-gray-600 mb-8">
-            Enter your email and password to sign in
-          </p>
-          <LoginForm />
-          <div className="text-center my-4 text-gray-500">OR CONTINUE WITH</div>
-          <SocialLoginButton />
+    <div className="min-h-screen w-full flex items-center justify-center bg-green-50">
+      <div className="w-full max-w-md px-4 py-8">
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <div className="flex flex-col space-y-2 text-center mb-6">
+            <UserCircle2 className="mx-auto h-12 w-12 text-green-700" />
+            <h1 className="text-2xl font-semibold tracking-tight text-green-700">Welcome to NJOKARU</h1>
+            <p className="text-sm text-green-600">Enter your email to sign in to your account</p>
+          </div>
+          {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
+          <div className="grid gap-6">
+            <form onSubmit={onSubmit}>
+              <div className="grid gap-2">
+                <div className="grid gap-1">
+                  <Label className="sr-only text-green-800" htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    type="email"
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    className="border-green-300 focus:border-green-500 focus:ring-green-500"
+                  />
+                </div>
+                <div className="grid gap-1 relative">
+                  <Label className="sr-only text-green-800" htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    type={showPassword ? "text" : "password"}
+                    autoCapitalize="none"
+                    autoComplete="current-password"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    className="border-green-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                  />
+                  <div
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                  </div>
+                </div>
+                <Button disabled={isLoading} className="bg-green-700 hover:bg-green-800 text-white">
+                  {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <LogIn className="mr-2 h-4 w-4" />
+                  )}
+                  Sign In
+                </Button>
+              </div>
+            </form>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-green-300" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-green-600">Or continue with</span>
+              </div>
+            </div>
+            <Button variant="outline" type="button" disabled={isLoading} className="border-green-300 text-green-700 hover:bg-green-100">
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <FaGoogle className="mr-2 h-4 w-4" />
+              )}
+              Google
+            </Button>
+          </div>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-green-600">
+              <Link href="/auth/forget-password" className="hover:text-green-800 underline underline-offset-4">
+                Forgot your password?
+              </Link>
+            </p>
+            <p className="mt-2 text-sm text-green-600">
+              Don't have an account?{" "}
+              <Link href="/auth/signup" className="hover:text-green-800 underline underline-offset-4">
+                Sign up
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}

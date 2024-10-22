@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 import aboutImage from '../../../../public/Assets/devon.jpg';
 
@@ -54,13 +55,13 @@ const AboutUs = () => {
                 the garden of your dreams.
               </p>
             </div>
-            <button 
+            <Button 
               onClick={() => router.push('/about')}
               className="mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
               aria-label="Learn more about NJOKARU"
             >
               Learn More
-            </button>
+            </Button>
           </div>
         </div>
       </div>

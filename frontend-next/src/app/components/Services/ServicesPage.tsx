@@ -1,23 +1,39 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import React, { useState } from 'react'
+import { ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose, DialogFooter } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import serviceData from './servicesData';
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import { useToast } from "@/hooks/use-toast"
+import serviceData from './servicesData'
 
 interface ServiceData {
-  id: number;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  details?: string;
+  id: number
+  title: string
+  description: string
+  icon: React.ReactNode
+  details?: string
 }
 
-const ServicesPage2: React.FC = () => {
-  const [selectedService, setSelectedService] = useState<ServiceData | null>(null);
+const ServicesPage: React.FC = () => {
+  const [selectedService, setSelectedService] = useState<ServiceData | null>(null)
+  const [isQuoteDialogOpen, setIsQuoteDialogOpen] = useState(false)
+  const { toast } = useToast()
+
+  const handleQuoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // Here you would typically send the form data to your backend
+    toast({
+      title: "Quote Request Submitted",
+      description: `We've received your request for ${selectedService?.title}. We'll get back to you soon!`,
+    })
+    setIsQuoteDialogOpen(false)
+  }
 
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-gray-100">
@@ -40,7 +56,7 @@ const ServicesPage2: React.FC = () => {
               <CardContent>
                 <CardDescription className="text-gray-600">{service.description}</CardDescription>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex justify-between">
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button 
@@ -67,18 +83,80 @@ const ServicesPage2: React.FC = () => {
                         {service.details || "More details about this service will be available soon. Please check back later or contact us for more information."}
                       </p>
                     </ScrollArea>
-                    <DialogClose asChild>
-                      <Button className="mt-4 bg-green-700 hover:bg-green-600 text-white">Close</Button>
-                    </DialogClose>
+                    <div className="mt-4 flex justify-between">
+                      <DialogClose asChild>
+                        <Button variant="outline">Close</Button>
+                      </DialogClose>
+                      <Button 
+                        className="bg-green-700 hover:bg-green-600 text-white"
+                        onClick={() => {
+                          setIsQuoteDialogOpen(true)
+                          setSelectedService(service)
+                        }}
+                      >
+                        Request Quote
+                      </Button>
+                    </div>
                   </DialogContent>
                 </Dialog>
+                <Button 
+                  variant="outline" 
+                  className="text-green-700 border-green-700 hover:bg-green-50"
+                  onClick={() => {
+                    setIsQuoteDialogOpen(true)
+                    setSelectedService(service)
+                  }}
+                >
+                  Request Quote
+                </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
       </div>
+      <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Request a Quote for {selectedService?.title}</DialogTitle>
+            <DialogDescription>
+              Fill out this form and we'll get back to you with a custom quote for our {selectedService?.title} service.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleQuoteSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input id="name" className="col-span-3" required />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="email" className="text-right">
+                  Email
+                </Label>
+                <Input id="email" type="email" className="col-span-3" required />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="phone" className="text-right">
+                  Phone
+                </Label>
+                <Input id="phone" type="tel" className="col-span-3" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="message" className="text-right">
+                  Message
+                </Label>
+                <Textarea id="message" className="col-span-3" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" className="bg-green-700 hover:bg-green-600 text-white">Submit Request</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </section>
-  );
+  )
 }
 
-export default ServicesPage2;
+export default ServicesPage

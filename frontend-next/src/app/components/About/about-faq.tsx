@@ -1,10 +1,15 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 
-const faqs = [
+interface FAQ {
+  question: string
+  answer: string
+}
+
+const faqs: FAQ[] = [
   {
     question: "What services does NJOKARU offer?",
     answer: "NJOKARU offers a wide range of services including garden design, landscaping, regular maintenance, and more."
@@ -25,14 +30,14 @@ const faqs = [
     question: "What are the factors NJOKARU considers when designing a garden?",
     answer: "NJOKARU takes into account various elements such as your desired style, the size and shape of your space, existing features, and local climate to create a personalized garden design."
   },
-];
+]
 
-function FAQSection() {
-  const [activeIndex, setActiveIndex] = useState(null);
+export default function FAQSection() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-  const toggleFAQ = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
+  const toggleFAQ = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index)
+  }
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-green-50">
@@ -46,23 +51,27 @@ function FAQSection() {
               <button
                 className="flex justify-between items-center w-full text-left p-6 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                 onClick={() => toggleFAQ(index)}
+                aria-expanded={activeIndex === index}
+                aria-controls={`faq-answer-${index}`}
               >
                 <span className="text-lg font-semibold text-gray-800">{faq.question}</span>
-                <ChevronDownIcon
+                <ChevronDown
                   className={`w-5 h-5 text-green-600 transform transition-transform duration-200 ${
                     activeIndex === index ? 'rotate-180' : ''
                   }`}
                 />
               </button>
-              <AnimatePresence>
+              <AnimatePresence initial={false}>
                 {activeIndex === index && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
                   >
-                    <p className="px-6 pb-6 text-gray-600">{faq.answer}</p>
+                    <div className="px-6 pb-6" id={`faq-answer-${index}`}>
+                      <p className="text-gray-600">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -71,7 +80,5 @@ function FAQSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
-
-export default FAQSection;
