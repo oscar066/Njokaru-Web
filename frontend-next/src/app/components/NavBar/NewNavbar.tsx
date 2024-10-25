@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 import {
@@ -21,10 +21,18 @@ import {
 
 import Cart from '../../components/Cart/cart';
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
 interface NavItemProps {
-  href: string
-  children: React.ReactNode
-  onClick?: () => void
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
 }
 
 const NavItem: React.FC<NavItemProps> = ({ href, children, onClick }) => {
@@ -44,10 +52,10 @@ const NavItem: React.FC<NavItemProps> = ({ href, children, onClick }) => {
 }
 
 interface NavMenuProps {
-  isLoggedIn: boolean
-  handleLogout: () => void
-  isMobile?: boolean
-  onItemClick?: () => void
+  isLoggedIn: boolean;
+  handleLogout: () => void;
+  isMobile?: boolean;
+  onItemClick?: () => void;
 }
 
 const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, onItemClick }) => {
@@ -109,30 +117,48 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, handleLogout, isMobile, o
 }
 
 const NavBar: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const router = useRouter()
-  const [cartItems, setCartItems] = useState([]) // State for cart items
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const router = useRouter();
 
+  // Load cart items from localStorage on initial render
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    setIsLoggedIn(!!token)
-  }, [])
+    const storedCart = localStorage.getItem('cartItems');
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  // Save cart items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const handleLogout = useCallback((): void => {
-    localStorage.removeItem('token')
-    setIsLoggedIn(false)
-    router.push('/')
-  }, [router])
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    router.push('/');
+  }, [router]);
 
   const handleUpdateCartQuantity = (id: number, quantity: number) => {
     setCartItems((prevItems) =>
       prevItems.map((item) => (item.id === id ? { ...item, quantity } : item))
-    )
-  }
+    );
+  };
 
   const handleRemoveCartItem = (id: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id))
-  }
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  const handleMobileMenuClose = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="fixed w-full z-10 bg-green-800 shadow-2xl transition-all duration-300">
@@ -143,36 +169,59 @@ const NavBar: React.FC = () => {
               <span className="flex-shrink-0 text-white font-bold text-xl font-serif">NJOKARU</span>
             </Link>
           </div>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             <NavMenu isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-            <Cart 
-              items={cartItems} 
-              onUpdateQuantity={handleUpdateCartQuantity} 
-              onRemoveItem={handleRemoveCartItem} 
-            />
+            <div className="ml-4">
+              <Cart 
+                items={cartItems} 
+                onUpdateQuantity={handleUpdateCartQuantity} 
+                onRemoveItem={handleRemoveCartItem}
+              />
+            </div>
           </div>
-          <div className="md:hidden">
-            <Sheet>
+
+          {/* Mobile Navigation */}
+          <div className="flex items-center md:hidden">
+            {/* Cart for mobile - Always visible */}
+            <div className="mr-2">
+              <Cart 
+                items={cartItems} 
+                onUpdateQuantity={handleUpdateCartQuantity} 
+                onRemoveItem={handleRemoveCartItem}
+              />
+            </div>
+
+            {/* Mobile menu button */}
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-white">
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-green-800">
-                <NavMenu isLoggedIn={isLoggedIn} handleLogout={handleLogout} isMobile onItemClick={() => {}} />
-                <Cart 
-                  items={cartItems} 
-                  onUpdateQuantity={handleUpdateCartQuantity} 
-                  onRemoveItem={handleRemoveCartItem} 
-                />
+              <SheetContent 
+                side="right" 
+                className="w-[300px] sm:w-[400px] bg-green-800"
+              >
+                <div className="flex flex-col h-full">
+                  <div className="flex-1">
+                    <NavMenu 
+                      isLoggedIn={isLoggedIn} 
+                      handleLogout={handleLogout} 
+                      isMobile 
+                      onItemClick={handleMobileMenuClose} 
+                    />
+                  </div>
+                </div>
               </SheetContent>
             </Sheet>
           </div>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
