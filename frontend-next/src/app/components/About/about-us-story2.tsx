@@ -13,7 +13,7 @@ export default function AboutUs() {
           <div>
             <h2 className="text-3xl font-semibold mb-4">Our Story</h2>
             <p className="text-muted-foreground mb-6">
-              Founded in 2010, NJOKARU began as a small startup with a big vision: to revolutionize the way people interact with technology. Our journey started in a tiny garage, fueled by passion and countless cups of coffee. Today, we've grown into a global leader in innovative solutions, but our core mission remains unchanged.
+              Founded in 2010, NJOKARU began as a small startup with a big vision: to revolutionize the way people interact with technology. Our journey started in a tiny garage, fueled by passion and countless cups of coffee. Today, we&apos;ve grown into a global leader in innovative solutions, but our core mission remains unchanged.
             </p>
             <p className="text-muted-foreground mb-6">
               We believe in the power of technology to transform lives and businesses. Our team of dedicated professionals works tirelessly to create cutting-edge products that simplify complex problems and open new possibilities for our clients.

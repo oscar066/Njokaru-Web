@@ -107,7 +107,7 @@ export default function Contact() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-green-700 mb-4 font-serif">Get in Touch</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions about our services? We're here to help and answer any question you might have.
+            Have questions about our services? We&apos;re here to help and answer any question you might have.
           </p>
         </div>
 
@@ -118,12 +118,12 @@ export default function Contact() {
               <ContactInfoCard
                 icon={Phone}
                 title="Phone"
-                content="+254 123 456 789"
+                content="+254 719 686 913"
               />
               <ContactInfoCard
                 icon={Mail}
                 title="Email"
-                content="contact@example.com"
+                content="njokaru@gardening.com"
               />
               <ContactInfoCard
                 icon={Clock}
