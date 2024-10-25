@@ -31,10 +31,10 @@ export default function AboutUsStory() {
           <div>
             <h2 className="text-3xl font-semibold mb-4">NJOKARU: Innovating Since 2010</h2>
             <p className="text-lg text-muted-foreground mb-6">
-              NJOKARU was born from a simple idea: to create technology that truly enhances people's lives. Founded in 2010 by a group of passionate engineers and designers, we've grown from a small startup to a global innovator.
+              NJOKARU was born from a simple idea: to create technology that truly enhances people&apos;s lives. Founded in 2010 by a group of passionate engineers and designers, we&apos;ve grown from a small startup to a global innovator.
             </p>
             <p className="text-lg text-muted-foreground mb-6">
-              Our journey has been one of continuous learning, relentless innovation, and unwavering commitment to our users. Today, NJOKARU stands at the forefront of technological advancement, always pushing the boundaries of what's possible.
+              Our journey has been one of continuous learning, relentless innovation, and unwavering commitment to our users. Today, NJOKARU stands at the forefront of technological advancement, always pushing the boundaries of what&apos;s possible.
             </p>
             <Button size="lg">Learn More About Our Mission</Button>
           </div>

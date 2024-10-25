@@ -16,7 +16,7 @@ const AboutUs = () => {
             Welcome to <span className="text-green-700">NJOKARU</span>
           </h1>
           <p className="text-xl text-gray-600 italic">
-            Crafting nature's canvas one garden at a time
+            Crafting nature&apos;s canvas one garden at a time
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
@@ -50,7 +50,7 @@ const AboutUs = () => {
                 clients fully enjoy their gardens and outdoor spaces.
               </p>
               <p>
-                Whether you need a one-time service or ongoing maintenance, we're here to turn your
+                Whether you need a one-time service or ongoing maintenance, we&apos;re here to turn your
                 outdoor dreams into reality. Contact us today to discover how we can help you create
                 the garden of your dreams.
               </p>

@@ -34,7 +34,7 @@ export default function QuoteButton() {
         <DialogHeader>
           <DialogTitle className="text-green-700">Get a Quote</DialogTitle>
           <DialogDescription>
-            Fill out this form and we'll get back to you with a quote.
+            Fill out this form and we&apos;ll get back to you with a quote.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">

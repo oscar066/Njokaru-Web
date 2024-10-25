@@ -39,7 +39,7 @@ export default function AboutUs() {
               <Zap className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Innovation</h3>
               <p className="text-muted-foreground">
-                We constantly push the boundaries of what's possible, embracing new ideas and technologies to stay ahead of the curve.
+                We constantly push the boundaries of what&apos;s possible, embracing new ideas and technologies to stay ahead of the curve.
               </p>
             </CardContent>
           </Card>

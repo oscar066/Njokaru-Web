@@ -29,7 +29,7 @@ export default function LoginPage() {
         password,
       });
 
-      // Handle successful login (e.g., redirect to a dashboard)
+      // Handle successful login (e.g., redirect to the Home Page)
       console.log('Login successful:', response.data);
 
       // Redirect to homepage
@@ -127,7 +127,7 @@ export default function LoginPage() {
               </Link>
             </p>
             <p className="mt-2 text-sm text-green-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/auth/signup" className="hover:text-green-800 underline underline-offset-4">
                 Sign up
               </Link>

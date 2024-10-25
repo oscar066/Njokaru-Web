@@ -177,7 +177,7 @@ export default function Dashboard() {
                 <DialogHeader>
                   <DialogTitle>Add New Product</DialogTitle>
                   <DialogDescription>
-                    Enter the details of the new product here. Click save when you're done.
+                    Enter the details of the new product here. Click save when you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -289,7 +289,7 @@ export default function Dashboard() {
                           <DialogHeader>
                             <DialogTitle>Edit Product</DialogTitle>
                             <DialogDescription>
-                              Make changes to the product here. Click save when you're done.
+                              Make changes to the product here. Click save when you&apos;re done.
                             </DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 py-4">

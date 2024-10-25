@@ -119,7 +119,7 @@ const ServicesPage: React.FC = () => {
           <DialogHeader>
             <DialogTitle>Request a Quote for {selectedService?.title}</DialogTitle>
             <DialogDescription>
-              Fill out this form and we'll get back to you with a custom quote for our {selectedService?.title} service.
+              Fill out this form and we&apos;ll get back to you with a custom quote for our {selectedService?.title} service.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleQuoteSubmit}>
