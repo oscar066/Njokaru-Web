@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -25,14 +25,14 @@ const testimonials: Testimonial[] = [
     name: 'Jane Smith',
     position: 'Property Manager',
     testimonial:
-      'We rely on Njokaru for all our landscaping needs. They always deliver top-notch service with a smile.',
+      "We rely on Njokaru for all our landscaping needs. They always deliver top-notch service with a smile.",
     image: janeImage.src,
   },
   {
     name: 'Michael Johnson',
     position: 'Business Owner',
     testimonial:
-      'Thanks to Njokaru, our office grounds have never looked better. Highly recommended for any landscaping project!',
+      "Thanks to Njokaru, our office grounds have never looked better. Highly recommended for any landscaping project!",
     image: danImage.src,
   },
   {
@@ -56,27 +56,30 @@ const Testimonials: React.FC = () => {
   const [screenSize, setScreenSize] = useState('default');
   const slidesToShow = { default: 1, md: 2, lg: 3 };
 
-  const extendedTestimonials = useMemo(() => {
-    const repeated = [...testimonials, ...testimonials, ...testimonials];
-    return repeated.slice(0, repeated.length - (repeated.length % slidesToShow.lg));
-  }, []);
-
-  const nextSlide = () => {
+  // Memoize nextSlide function to use in useEffect
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex >= extendedTestimonials.length - slidesToShow[screenSize as keyof typeof slidesToShow] 
         ? 0 
         : prevIndex + 1
     );
-  };
+  }, [screenSize, slidesToShow]);
 
-  const prevSlide = () => {
+  // Fix useMemo dependency array
+  const extendedTestimonials = useMemo(() => {
+    const repeated = [...testimonials, ...testimonials, ...testimonials];
+    return repeated.slice(0, repeated.length - (repeated.length % slidesToShow.lg));
+  }, [slidesToShow.lg]); // Added missing dependency
+
+  const prevSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 
         ? extendedTestimonials.length - slidesToShow[screenSize as keyof typeof slidesToShow] 
         : prevIndex - 1
     );
-  };
+  }, [screenSize, slidesToShow, extendedTestimonials.length]);
 
+  // Fix useEffect dependency array
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -96,7 +99,7 @@ const Testimonials: React.FC = () => {
       clearInterval(interval);
       window.removeEventListener('resize', handleResize);
     };
-  }, [screenSize]);
+  }, [nextSlide]); // Added missing dependency
 
   return (
     <section className="bg-gray-100 py-12">
@@ -118,13 +121,12 @@ const Testimonials: React.FC = () => {
                       alt={`${item.name} photo`}
                       width={96}
                       height={96}
-                      objectFit="cover"
-                      className="rounded-full"
+                      className="rounded-full object-cover"
                     />
                   </div>
                   <p className="text-xl font-semibold text-gray-800 mb-2">{item.name}</p>
                   <p className="text-gray-600 mb-4">{item.position}</p>
-                  <p className="text-gray-700 italic">"{item.testimonial}"</p>
+                  <p className="text-gray-700 italic">{item.testimonial}</p>
                 </div>
               </div>
             ))}
