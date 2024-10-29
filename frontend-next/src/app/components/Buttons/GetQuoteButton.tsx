@@ -28,7 +28,7 @@ export default function QuoteButton() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-green-700 hover:bg-green-600 text-white">Get a Quote</Button>
+        <Button className="bg-green-500 hover:bg-green-700 text-white">Get a Quote</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
