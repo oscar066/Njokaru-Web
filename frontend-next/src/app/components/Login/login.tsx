@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaGoogle } from "react-icons/fa";
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
+import { ToastAction } from "@/components/ui/toast"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -15,6 +18,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
   const router = useRouter();
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -29,16 +33,33 @@ export default function LoginPage() {
         password,
       });
 
+      // Display success toast
+      toast({
+        title: "Login Successful",
+        description: "Welcome back! You've successfully logged in.",
+        //duration: 3000,
+        className: "text-green-700",
+      });
+
       // Handle successful login (e.g., redirect to the Home Page)
       console.log('Login successful:', response.data);
 
-      // Redirect to homepage
-      router.push('/');
+      // Delay redirect to allow toast to be seen
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
 
     } catch (error) {
       // Handle login errors
       console.error('Login failed:', error);
       setErrorMessage('Login failed. Please check your email and password.');
+      toast({
+        title: "Login Failed",
+        description: "Please check your email and password.",
+        variant: "destructive",
+        action: <ToastAction altText="Try again">Try again</ToastAction>
+      });
+
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +67,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-green-50">
+      <Toaster />
       <div className="w-full max-w-md px-4 py-8">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="flex flex-col space-y-2 text-center mb-6">
@@ -90,7 +112,7 @@ export default function LoginPage() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                    {showPassword ? <BsEyeFill className="text-green-600" /> : <BsEyeSlashFill className="text-green-600" />}
                   </div>
                 </div>
                 <Button disabled={isLoading} className="bg-green-700 hover:bg-green-800 text-white">

@@ -8,6 +8,10 @@ import { Loader2, UserPlus } from 'lucide-react';
 import Link from "next/link";
 import { FaGoogle } from 'react-icons/fa';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
+import { ToastAction } from "@/components/ui/toast"
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,6 +22,8 @@ export default function SignupPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -39,8 +45,14 @@ export default function SignupPage() {
         password,
       });
 
-      // Handle the successful registration (you can redirect or show a success message)
+      // Handle the successful registration
       console.log('Registration successful:', response.data);
+      toast({
+        title: "Registration Successful",
+        description: "Your account has been created successfully!",
+        duration: 3000,
+        className: "text-green-700"
+      });
 
       // Reset the form fields
       setName('');
@@ -48,16 +60,30 @@ export default function SignupPage() {
       setPassword('');
       setConfirmPassword('');
       
+      // Redirect to login page after a short delay
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 3000);
+      
     } catch (error) {
       // Handle errors
       console.error('Registration failed:', error);
       setErrorMessage('Registration failed. Please try again.');
+      toast({
+        title: "Registration Failed",
+        description: "Please try again.",
+        variant: "destructive",
+        action: <ToastAction altText="Try again">Try again</ToastAction>
+      });
+
     } finally {
       setIsLoading(false);
     }
   }
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-green-50">
+      <Toaster />
       <div className="w-full max-w-md px-4 py-8 flex-col">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="flex flex-col space-y-2 text-center mb-6">
@@ -125,7 +151,7 @@ export default function SignupPage() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                    {showPassword ? <BsEyeFill className="text-green-600" /> : <BsEyeSlashFill className="text-green-600" />}
                   </div>
                 </div>
                 <div className="grid gap-1 relative">
@@ -148,7 +174,7 @@ export default function SignupPage() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showConfirmPassword ? <BsEyeSlashFill className="text-green-600" /> : <BsEyeFill className="text-green-600" />}
+                    {showConfirmPassword ? <BsEyeFill className="text-green-600" /> : <BsEyeSlashFill className="text-green-600" />}
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
