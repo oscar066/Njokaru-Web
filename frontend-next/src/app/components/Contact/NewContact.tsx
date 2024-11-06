@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -7,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { AlertCircle, CheckCircle2, Phone, Mail, Clock, MapPin } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent } from "@/components/ui/card"
+import { motion } from "framer-motion"
 
 interface FormData {
   fullName: string
@@ -21,18 +24,24 @@ interface SubmitStatus {
   message: string
 }
 
-const ContactInfoCard = ({ icon: Icon, title, content }: { icon: any, title: string, content: string }) => (
-  <Card className="border-none shadow-none bg-green-50">
-    <CardContent className="flex items-center space-x-4 p-4">
-      <div className="rounded-full bg-green-100 p-3">
-        <Icon className="h-6 w-6 text-green-700" />
-      </div>
-      <div>
-        <h3 className="font-medium text-gray-900">{title}</h3>
-        <p className="text-gray-600">{content}</p>
-      </div>
-    </CardContent>
-  </Card>
+const ContactInfoCard = ({ icon: Icon, title, content }: { icon: React.ElementType, title: string, content: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <Card className="border-none shadow-none bg-green-50 hover:bg-green-100 transition-colors duration-300">
+      <CardContent className="flex items-center space-x-4 p-4">
+        <div className="rounded-full bg-green-100 p-3">
+          <Icon className="h-6 w-6 text-green-700" />
+        </div>
+        <div>
+          <h3 className="font-medium text-gray-900">{title}</h3>
+          <p className="text-gray-600">{content}</p>
+        </div>
+      </CardContent>
+    </Card>
+  </motion.div>
 )
 
 export default function Contact() {
@@ -70,28 +79,42 @@ export default function Contact() {
     setSubmitStatus(null)
 
     try {
-      const response = await fetch('http://localhost:8000/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // Simulating API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      setSubmitStatus({ type: 'success', message: "Your message has been received. We'll get back to you soon!" })
+      setFormData({
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        serviceType: '',
+        message: '',
       })
 
-      const result = await response.json()
+      // try {
+      //   const response = await fetch('http://localhost:8000/contact', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(formData),
+      //   })
+  
+      //   const result = await response.json()
+  
+      //   if (result.success) {
+      //     setSubmitStatus({ type: 'success', message: "Your message has been received. We'll get back to you soon!" })
+      //     setFormData({
+      //       fullName: '',
+      //       email: '',
+      //       phoneNumber: '',
+      //       serviceType: '',
+      //       message: '',
+      //     })
+      //   } else {
+      //     setSubmitStatus({ type: 'error', message: 'Failed to submit form. Please try again.' })
+      //   }
 
-      if (result.success) {
-        setSubmitStatus({ type: 'success', message: "Your message has been received. We'll get back to you soon!" })
-        setFormData({
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-          serviceType: '',
-          message: '',
-        })
-      } else {
-        setSubmitStatus({ type: 'error', message: 'Failed to submit form. Please try again.' })
-      }
     } catch (error) {
       console.error('Error:', error)
       setSubmitStatus({ type: 'error', message: 'An error occurred. Please try again later.' })
@@ -103,16 +126,19 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
           <h1 className="text-4xl font-bold text-green-700 mb-4 font-serif">Get in Touch</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Have questions about our services? We&apos;re here to help and answer any question you might have.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left Column - Contact Information */}
           <div className="space-y-8">
             <div className="space-y-6">
               <ContactInfoCard
@@ -137,7 +163,12 @@ export default function Contact() {
               />
             </div>
             
-            <div className="rounded-lg overflow-hidden shadow-lg h-80">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-lg overflow-hidden shadow-lg h-80"
+            >
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d720.642767292865!2d36.8292854492139!3d-1.1833284212049473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f3d9486a3f407%3A0xb417fa1b9cc667!2sEdenville%20Villas%20Phase%201!5e1!3m2!1sen!2ske!4v1721255264803!5m2!1sen!2ske"
                 width="100%"
@@ -147,11 +178,15 @@ export default function Contact() {
                 loading="lazy"
                 title="Business Location"
               />
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Column - Contact Form */}
-          <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
+          >
             <h2 className="text-2xl font-bold mb-6 text-green-700 font-serif">Send us a Message</h2>
             
             {submitStatus && (
@@ -216,13 +251,15 @@ export default function Contact() {
               <div className="space-y-2">
                 <Label htmlFor="serviceType" className="text-gray-700">Service Type</Label>
                 <Select onValueChange={handleSelectChange} value={formData.serviceType}>
-                  <SelectTrigger className="focus:ring-green-500 focus:border-green-500">
+                  <SelectTrigger id="serviceType" className="focus:ring-green-500 focus:border-green-500">
                     <SelectValue placeholder="Select a service type" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Grass Trimming">Grass Trimming</SelectItem>
                     <SelectItem value="Lawn Mowing">Lawn Mowing</SelectItem>
                     <SelectItem value="Soil Treatment">Soil Treatment</SelectItem>
+                    <SelectItem value="Garden Design">Garden Design</SelectItem>
+                    <SelectItem value="Plant Care">Plant Care</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -244,7 +281,7 @@ export default function Contact() {
               <Button 
                 type="submit" 
                 disabled={isSubmitting} 
-                className="w-full bg-green-700 hover:bg-green-600 text-white font-serif py-6"
+                className="w-full bg-green-700 hover:bg-green-600 text-white font-serif py-6 transition-colors duration-300"
               >
                 {isSubmitting ? (
                   <>
@@ -259,7 +296,7 @@ export default function Contact() {
                 )}
               </Button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
