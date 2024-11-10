@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import useStore from "@/store/store"
+import Image  from "next/image"
 
+/*
 interface CartItem {
   id: number;
   name: string;
@@ -20,7 +23,7 @@ interface CartProps {
   onRemoveItem: (id: number) => void;
   maxItemQuantity?: number;
   onCheckout?: () => void;
-}
+}*/
 
 export default function Cart({ 
   items = [], 
@@ -28,29 +31,20 @@ export default function Cart({
   onRemoveItem, 
   maxItemQuantity = 99,
   onCheckout 
-}: CartProps) {
+}: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [total, setTotal] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
-  useEffect(() => {
-    const newTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    setTotal(newTotal);
-  }, [items]);
+  const cartItems = useStore((state) => state.cartItems);
+  const updateQuantity = useStore((state) => state.updateQuantity);
+  const removeFromCart = useStore((state) => state.removeFromCart);
+  const totalItems = cartItems.reduce((a, c) => a + c.quantity, 0)
 
-  const handleQuantityUpdate = (item: CartItem, newQuantity: number) => {
-    const maxAllowed = item.maxQuantity || maxItemQuantity;
-    if (newQuantity > maxAllowed) {
-      setAlertMessage(`Maximum quantity allowed is ${maxAllowed}`);
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
-      return;
-    }
-    onUpdateQuantity(item.id, newQuantity);
-  };
-
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const handleQuantityUpdate = (item:any, action:any) => {
+    updateQuantity(item, action)
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -100,7 +94,7 @@ export default function Cart({
           )}
         </AnimatePresence>
 
-        {items.length === 0 ? (
+        {cartItems.length === 0 ? (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -111,7 +105,7 @@ export default function Cart({
         ) : (
           <div className="mt-8 space-y-4">
             <AnimatePresence>
-              {items.map((item) => (
+              {cartItems.map((item) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, x: -20 }}
@@ -120,9 +114,11 @@ export default function Cart({
                   className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm"
                 >
                   <div className="relative w-16 h-16 overflow-hidden rounded-md">
-                    <img 
-                      src={item.image} 
-                      alt={item.name} 
+                    <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={60}
+                    height={60}
                       className="object-cover w-full h-full transition-transform hover:scale-110" 
                     />
                   </div>
@@ -135,7 +131,7 @@ export default function Cart({
                       variant="outline" 
                       size="icon" 
                       className="h-8 w-8 rounded-full hover:bg-green-50"
-                      onClick={() => handleQuantityUpdate(item, Math.max(1, item.quantity - 1))}
+                      onClick={() => handleQuantityUpdate(item, "decrease")}
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
@@ -144,7 +140,7 @@ export default function Cart({
                       variant="outline" 
                       size="icon" 
                       className="h-8 w-8 rounded-full hover:bg-green-50"
-                      onClick={() => handleQuantityUpdate(item, item.quantity + 1)}
+                      onClick={() => handleQuantityUpdate(item, "increase")}
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -153,7 +149,7 @@ export default function Cart({
                     variant="ghost" 
                     size="icon" 
                     className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                    onClick={() => onRemoveItem(item.id)}
+                    onClick={() => removeFromCart(item)}
                   >
                     <X className="h-4 w-4" />
                   </Button>

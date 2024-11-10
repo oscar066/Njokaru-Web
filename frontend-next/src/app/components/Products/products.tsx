@@ -10,8 +10,9 @@ import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import ProductDetails from "./products-details"
+import useStore from "../../../store/store"
 
-interface Product {
+export interface Product {
   id: number
   name: string
   price: number
@@ -107,18 +108,16 @@ export default function ProductPage() {
     setCurrentPage(1)
   }, [searchTerm, priceRange, selectedCategories, sortOption])
 
-  const handleAddToCart = (product: Product, quantity: number) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id)
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
-        )
-      } else {
-        return [...prevItems, { ...product, quantity }]
-      }
-    })
-  }
+  const addToCart = useStore((state) => state.addToCart);
+  const handleAddToCart = (product:Product) => {
+    addToCart(product);
+  };
+
+  const cart = useStore((state) => state.cartItems);
+  const removeFromCart = useStore((state) => state.removeFromCart);
+  const totalItems = cartItems.reduce((a, c) => a + c.quantity, 0)
+
+  
 
   const handleAddToWishlist = (product: Product) => {
     // Implement wishlist functionality here
@@ -128,6 +127,7 @@ export default function ProductPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section with Parallax Effect */}
+      
       <section className="relative h-[60vh] overflow-hidden">
         <div className="absolute inset-0 bg-[url('/Assets/products-hero1.jpeg')] bg-cover bg-center transform motion-safe:animate-subtle-zoom" />
         <div className="absolute inset-0 bg-black/50" />
@@ -231,9 +231,9 @@ export default function ProductPage() {
             <SheetTrigger asChild>
               <Button variant="outline" className="relative">
                 <ShoppingCart size={20} />
-                {cartItems.length > 0 && (
+                {cart.length > 0 && (
                   <Badge className="absolute -top-2 -right-2 bg-green-600">
-                    {cartItems.length}
+                    {cart.length}
                   </Badge>
                 )}
               </Button>
@@ -243,7 +243,7 @@ export default function ProductPage() {
                 <SheetTitle>Shopping Cart</SheetTitle>
               </SheetHeader>
               <div className="mt-8">
-                {cartItems.map(item => (
+                {cart.map(item => (
                   <div key={item.id} className="flex items-center gap-4 mb-4">
                     <Image
                       src={item.image}
@@ -261,17 +261,17 @@ export default function ProductPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => setCartItems(items => items.filter(i => i.id !== item.id))}
+                      onClick={() => removeFromCart(item)}
                     >
                       <X size={16} />
                     </Button>
                   </div>
                 ))}
-                {cartItems.length > 0 ? (
+                {cart.length > 0 ? (
                   <div className="mt-6 space-y-4">
                     <div className="flex justify-between font-medium">
                       <span>Total</span>
-                      <span>${cartTotal.toFixed(2)}</span>
+                      <span>${totalItems.toFixed(2)}</span>
                     </div>
                     <Button className="w-full bg-green-600 hover:bg-green-700">
                       Checkout
@@ -286,6 +286,7 @@ export default function ProductPage() {
         </div>
 
         {/* Product Grid */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedProducts.map((product) => (
             <Card key={product.id} className="group">
@@ -322,7 +323,7 @@ export default function ProductPage() {
                 <Button
                   size="sm"
                   className="bg-green-600 hover:bg-green-700"
-                  onClick={() => handleAddToCart(product, 1)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to Cart
                 </Button>
@@ -332,6 +333,7 @@ export default function ProductPage() {
         </div>
 
         {/* Pagination Controls */}
+
         <div className="mt-8 flex justify-center items-center space-x-4">
           <Button
             variant="outline"
@@ -355,14 +357,16 @@ export default function ProductPage() {
         </div>
 
         {/* Product Details Modal */}
-        {selectedProduct && (
+
+        {/** {selectedProduct && (
           <ProductDetails
             product={selectedProduct}
             onClose={() => setSelectedProduct(null)}
             onAddToCart={handleAddToCart}
             onAddToWishlist={handleAddToWishlist}
           />
-        )}
+        )} */}
+      
       </main>
     </div>
   )
