@@ -1,8 +1,6 @@
 import { create } from 'zustand'
-import {persist} from 'zustand/middleware'
-import {Product} from "../app/components/Products/products"
-
-
+import { persist } from 'zustand/middleware'
+import { Product } from "../app/components/Products/products"
 
 interface Cart extends Product {
     quantity: number
@@ -22,7 +20,6 @@ const useStore = create<Store>()(
             cartItems: [],
 
             addToCart: (product) => {
-
                const newItem = {...product, quantity:1}
                const cart = get().cartItems;
 
@@ -38,7 +35,8 @@ const useStore = create<Store>()(
                  }));
                }
             },
-            updateQuantity: (product,action) => {
+
+            updateQuantity: (product, action) => {
               const cart = get().cartItems;
               const foundProduct = cart.find((item) => item.id === product.id);
 
