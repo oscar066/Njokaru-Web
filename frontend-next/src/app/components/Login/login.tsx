@@ -37,7 +37,6 @@ export default function LoginPage() {
       toast({
         title: "Login Successful",
         description: "Welcome back! You've successfully logged in.",
-        //duration: 3000,
         className: "text-green-700",
       });
 
@@ -75,7 +74,7 @@ export default function LoginPage() {
             <h1 className="text-2xl font-semibold tracking-tight text-green-700">Welcome to NJOKARU</h1>
             <p className="text-sm text-green-600">Enter your email to sign in to your account</p>
           </div>
-          {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
+          {errorMessage && <p className="text-red-700 text-center mb-4">{errorMessage}</p>}
           <div className="grid gap-6">
             <form onSubmit={onSubmit}>
               <div className="grid gap-2">
