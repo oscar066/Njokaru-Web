@@ -1,7 +1,12 @@
-export default function ProductsDetails({params}:{params: {id:string}}){
-     const productId = params.id
-     
+import React from 'react';
+//import ProductDetails from '../components/Products/products-details';
+
+const ProductsPage: React.FC = () => {
     return (
-        <div>Product Details</div>
-    )
-}
+      <div className="pt-16"> 
+        {/* <ProductDetails /> */}
+      </div>
+    );
+  };
+  
+  export default ProductsPage;
