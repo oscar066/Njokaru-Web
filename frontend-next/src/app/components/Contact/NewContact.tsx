@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import { AlertCircle, CheckCircle2, Phone, Mail, Clock, MapPin } from "lucide-react"
+import { AlertCircle, CheckCircle2, Phone, Mail, Clock, MapPin, MessageCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent } from "@/components/ui/card"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import ChatSupport from '../Chatbot-Support/chatSupport'
 
 interface FormData {
   fullName: string
@@ -55,6 +56,7 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null)
+  const [isChatOpen, setIsChatOpen] = useState(false)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -90,31 +92,6 @@ export default function Contact() {
         serviceType: '',
         message: '',
       })
-
-      // try {
-      //   const response = await fetch('http://localhost:8000/contact', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(formData),
-      //   })
-  
-      //   const result = await response.json()
-  
-      //   if (result.success) {
-      //     setSubmitStatus({ type: 'success', message: "Your message has been received. We'll get back to you soon!" })
-      //     setFormData({
-      //       fullName: '',
-      //       email: '',
-      //       phoneNumber: '',
-      //       serviceType: '',
-      //       message: '',
-      //     })
-      //   } else {
-      //     setSubmitStatus({ type: 'error', message: 'Failed to submit form. Please try again.' })
-      //   }
-
     } catch (error) {
       console.error('Error:', error)
       setSubmitStatus({ type: 'error', message: 'An error occurred. Please try again later.' })
@@ -189,21 +166,30 @@ export default function Contact() {
           >
             <h2 className="text-2xl font-bold mb-6 text-green-700 font-serif">Send us a Message</h2>
             
-            {submitStatus && (
-              <Alert 
-                variant={submitStatus.type === 'success' ? "default" : "destructive"} 
-                className="mb-6"
-              >
-                {submitStatus.type === 'success' ? 
-                  <CheckCircle2 className="h-4 w-4" /> : 
-                  <AlertCircle className="h-4 w-4" />
-                }
-                <AlertTitle>
-                  {submitStatus.type === 'success' ? 'Success' : 'Error'}
-                </AlertTitle>
-                <AlertDescription>{submitStatus.message}</AlertDescription>
-              </Alert>
-            )}
+            <AnimatePresence>
+              {submitStatus && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Alert 
+                    variant={submitStatus.type === 'success' ? "default" : "destructive"} 
+                    className="mb-6"
+                  >
+                    {submitStatus.type === 'success' ? 
+                      <CheckCircle2 className="h-4 w-4" /> : 
+                      <AlertCircle className="h-4 w-4" />
+                    }
+                    <AlertTitle>
+                      {submitStatus.type === 'success' ? 'Success' : 'Error'}
+                    </AlertTitle>
+                    <AlertDescription>{submitStatus.message}</AlertDescription>
+                  </Alert>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
@@ -299,6 +285,17 @@ export default function Contact() {
           </motion.div>
         </div>
       </div>
+      
+      <div className="fixed bottom-4 right-4 z-50">
+        <Button
+          onClick={() => setIsChatOpen(!isChatOpen)}
+          className="rounded-full w-16 h-16 bg-green-700 hover:bg-green-600 text-white shadow-lg"
+        >
+          <MessageCircle size={24} />
+        </Button>
+      </div>
+      
+      {isChatOpen && <ChatSupport onClose={() => setIsChatOpen(false)} />}
     </div>
   )
 }
