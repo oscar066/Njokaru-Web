@@ -27,4 +27,12 @@ Frontendd/src/Assets/.devon.jpg.icloud
 Frontendd/src/Assets/.jason-dent.jpg.icloud
 Frontendd/src/Assets/.victor.jpg.icloud
 
+# Ignore Images 
+
+Frontendd/src/Assets/.dan.jpg
+Frontendd/src/Assets/.daniel-watson.jpg
+Frontendd/src/Assets/.daniel.jpg
+Frontendd/src/Assets/.devon.jpg
+Frontendd/src/Assets/.jason-dent.jpg
+Frontendd/src/Assets/.victor.jpg
 
