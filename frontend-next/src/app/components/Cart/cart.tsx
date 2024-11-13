@@ -1,57 +1,62 @@
-import { useState, useEffect } from 'react';
-import { ShoppingCart, X, Plus, Minus } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { motion, AnimatePresence } from 'framer-motion';
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import useStore from "@/store/store"
-import Image  from "next/image"
+'use client'
 
-/*
+import { useState, useEffect } from 'react'
+import { ShoppingCart, X, Plus, Minus } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { motion, AnimatePresence } from 'framer-motion'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import useStore from "@/store/store"
+import Image from "next/image"
+import Link from "next/link"
+
 interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  maxQuantity?: number;
+  id: number
+  name: string
+  price: number
+  quantity: number
+  image?: string
+  maxQuantity?: number
 }
 
 interface CartProps {
-  items?: CartItem[];
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemoveItem: (id: number) => void;
-  maxItemQuantity?: number;
-  onCheckout?: () => void;
-}*/
+  maxItemQuantity?: number
+  onCheckout?: () => void
+}
 
-export default function Cart({ 
-  items = [], 
-  onUpdateQuantity, 
-  onRemoveItem, 
-  maxItemQuantity = 99,
-  onCheckout 
-}: any) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
 
-  const cartItems = useStore((state) => state.cartItems);
-  const updateQuantity = useStore((state) => state.updateQuantity);
-  const removeFromCart = useStore((state) => state.removeFromCart);
+  const cartItems = useStore((state) => state.cartItems)
+  const updateQuantity = useStore((state) => state.updateQuantity)
+  const removeFromCart = useStore((state) => state.removeFromCart)
   const totalItems = cartItems.reduce((a, c) => a + c.quantity, 0)
+  const total = cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
 
-  const handleQuantityUpdate = (item:any, action:any) => {
+  const handleQuantityUpdate = (item: CartItem, action: 'increase' | 'decrease') => {
+    if (action === 'increase' && item.quantity >= maxItemQuantity) {
+      setAlertMessage(`Maximum quantity (${maxItemQuantity}) reached for this item`)
+      setShowAlert(true)
+      return
+    }
     updateQuantity(item, action)
   }
+
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => setShowAlert(false), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showAlert])
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button 
           variant="outline" 
-          className="relative overflow-hidden group"
+          className="relative overflow-hidden group border-green-700 hover:bg-green-50"
           onClick={() => totalItems === 0 && setShowAlert(true)}
         >
           <ShoppingCart className="h-5 w-5 text-green-700 transition-transform group-hover:scale-110" />
@@ -61,7 +66,7 @@ export default function Cart({
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="absolute -top-2 -right-2 bg-green-700 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
               >
                 {totalItems}
               </motion.span>
@@ -111,14 +116,14 @@ export default function Cart({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm"
+                  className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200"
                 >
                   <div className="relative w-16 h-16 overflow-hidden rounded-md">
                     <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={60}
-                    height={60}
+                      src={item.image}
+                      alt={item.name}
+                      width={60}
+                      height={60}
                       className="object-cover w-full h-full transition-transform hover:scale-110" 
                     />
                   </div>
@@ -166,16 +171,18 @@ export default function Cart({
                 <span className="font-semibold">Total:</span>
                 <span className="font-bold text-green-700">${total.toFixed(2)}</span>
               </div>
-              <Button 
-                className="w-full mt-4 bg-green-700 hover:bg-green-600 transition-colors"
-                onClick={onCheckout}
-              >
-                Proceed to Checkout
-              </Button>
+              <Link href="/checkout" className="block w-full">
+                <Button 
+                  className="w-full mt-4 bg-green-700 hover:bg-green-600 transition-colors"
+                  onClick={onCheckout}
+                >
+                  Proceed to Checkout
+                </Button>
+              </Link>
             </motion.div>
           </div>
         )}
       </SheetContent>
     </Sheet>
-  );
+  )
 }
