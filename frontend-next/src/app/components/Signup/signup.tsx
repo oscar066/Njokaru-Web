@@ -39,7 +39,7 @@ export default function SignupPage() {
 
     try {
       // Sending the request to the registration endpoint
-      const response = await axios.post('http://localhost:8000/api/accounts/register/', {
+      const response = await axios.post('http://localhost:8000/api/accounts/auth/register/', {
         name,
         email,
         password,
@@ -71,9 +71,9 @@ export default function SignupPage() {
       setErrorMessage('Registration failed. Please try again.');
       toast({
         title: "Registration Failed",
-        description: "Please try again.",
-        variant: "destructive",
-        action: <ToastAction altText="Try again">Try again</ToastAction>
+        description: "Please try again.", 
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        className: "text-red-800",
       });
 
     } finally {
@@ -93,7 +93,7 @@ export default function SignupPage() {
               Enter your details below to create your account
             </p>
           </div>
-          {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
+          {errorMessage && <p className="text-red-700 text-center mb-4">{errorMessage}</p>}
           <div className="grid gap-6">
             <form onSubmit={onSubmit}>
               <div className="grid gap-2">
