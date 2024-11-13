@@ -1,54 +1,44 @@
-import { useState } from 'react'
+"use client"
+
+import { useState } from "react"
 import Image from 'next/image'
 import { X, Minus, Plus, ShoppingCart, Heart, Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-
-interface Product {
-  id: number
-  name: string
-  price: number
-  category: string
-  images: string[]
-  description: string
-  rating: number
-  availability: number
-  colors?: string[]
-  dimensions: string
-  material: string
-}
+import useStore from "../../../store/store"
+import { Product } from "./products"
 
 interface ProductDetailsProps {
   product: Product
   onClose: () => void
-  onAddToCart: (product: Product, quantity: number, color: string | undefined) => void
+  onAddToCart: (product: Product, quantity: number) => void
   onAddToWishlist: (product: Product) => void
 }
 
 export default function ProductDetails({ product, onClose, onAddToCart, onAddToWishlist }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [selectedColor, setSelectedColor] = useState(product.colors?.[0] ?? 'default')
 
   const incrementQuantity = () => setQuantity(prev => Math.min(prev + 1, product.availability))
   const decrementQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1))
 
+  const addToCart = useStore((state) => state.addToCart)
+
   const handleAddToCart = () => {
-    onAddToCart(product, quantity, product.colors ? selectedColor : undefined)
+    addToCart({ ...product, quantity })
     onClose()
   }
 
   const nextImage = () => {
-    setCurrentImageIndex(prev => (prev + 1) % product.images.length)
+    setCurrentImageIndex(prev => (prev + 1) % product.additional_images.length)
   }
 
   const prevImage = () => {
-    setCurrentImageIndex(prev => (prev - 1 + product.images.length) % product.images.length)
+    setCurrentImageIndex(prev => (prev - 1 + product.additional_images.length) % product.additional_images.length)
   }
 
   return (
@@ -69,7 +59,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
         <div className="grid gap-4 py-4 md:grid-cols-2">
           <div className="relative">
             <Image
-              src={product.images[currentImageIndex]}
+              src={product.additional_images[currentImageIndex]}
               alt={`${product.name} - Image ${currentImageIndex + 1}`}
               width={400}
               height={400}
@@ -92,7 +82,7 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
               <ChevronRight className="h-4 w-4" />
             </Button>
             <div className="flex justify-center mt-2 space-x-2">
-              {product.images.map((_, index) => (
+              {product.additional_images.map((_, index) => (
                 <Button
                   key={index}
                   variant="outline"
@@ -127,37 +117,6 @@ export default function ProductDetails({ product, onClose, onAddToCart, onAddToW
               <p className="text-2xl font-bold text-green-700 mb-4">${product.price.toFixed(2)}</p>
             </div>
             <div className="space-y-4">
-              {product.colors && product.colors.length > 0 ? (
-                <div>
-                  <Label htmlFor="color-select">Color</Label>
-                  <RadioGroup
-                    id="color-select"
-                    value={selectedColor}
-                    onValueChange={setSelectedColor}
-                    className="flex space-x-2 mt-2"
-                  >
-                    {product.colors.map(color => (
-                      <div key={color}>
-                        <RadioGroupItem
-                          value={color}
-                          id={`color-${color}`}
-                          className="sr-only"
-                        />
-                        <Label
-                          htmlFor={`color-${color}`}
-                          className={cn(
-                            "w-8 h-8 rounded-full cursor-pointer flex items-center justify-center border-2",
-                            selectedColor === color ? "border-green-700" : "border-transparent"
-                          )}
-                          style={{ backgroundColor: color }}
-                        >
-                          <span className="sr-only">{color}</span>
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
-              ) : null}
               <div className="flex items-center gap-4">
                 <Button 
                   variant="outline" 
