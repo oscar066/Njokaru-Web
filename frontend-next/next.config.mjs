@@ -1,4 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.mjs
 
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+      domains: ['127.0.0.1'], // Add your local domain here
+    },
+  };
+  
+  export default nextConfig;
+  
