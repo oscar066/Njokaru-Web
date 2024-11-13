@@ -20,7 +20,7 @@ export interface Product {
   image?: string | null;
   description: string;
   rating: number;
-  availability: number;
+  availability: number; // consider using quantity property instead of this 
   additional_images?: Array<{ image: string }>;
   dimensions: string;
   material: string;
@@ -31,6 +31,7 @@ export interface CartItem extends Product {
 }
 
 export default function ProductPage() {
+  const [products, setProducts] = useState<Product[]>([])
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -39,7 +40,6 @@ export default function ProductPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [sortOption, setSortOption] = useState('name')
   const [currentPage, setCurrentPage] = useState(1)
-  const [products, setProducts] = useState<Product[]>([])
   const productsPerPage = 8
 
   useEffect(() => {
@@ -85,8 +85,6 @@ export default function ProductPage() {
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   )
-
-  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
 
   useEffect(() => {
     setCurrentPage(1)
@@ -230,7 +228,7 @@ export default function ProductPage() {
                 {cart.map(item => (
                   <div key={item.id} className="flex items-center gap-4 mb-4">
                     <Image
-                      src={item.image}
+                      src={item.image || '/placeholder'}
                       alt={item.name}
                       width={60}
                       height={60}
@@ -276,7 +274,7 @@ export default function ProductPage() {
             <Card key={product.id} className="group">
               <CardHeader className="p-0 relative overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={product.image || '/placeholder'}
                   alt={product.name}
                   width={300}
                   height={200}
@@ -342,14 +340,14 @@ export default function ProductPage() {
 
         {/* Product Details Modal */}
 
-        {/** {selectedProduct && (
+        {selectedProduct && (
           <ProductDetails
             product={selectedProduct}
             onClose={() => setSelectedProduct(null)}
             onAddToCart={handleAddToCart}
             onAddToWishlist={handleAddToWishlist}
           />
-        )} */}
+        )}
       
       </main>
     </div>
