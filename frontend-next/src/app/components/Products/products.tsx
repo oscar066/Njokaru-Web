@@ -1,8 +1,9 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Search, ShoppingCart, Filter, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Search, Filter, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -17,23 +18,23 @@ export interface Product {
   name: string;
   price: number;
   category: string;
-  image?: string | null;
+  image?: string ;
   description: string;
   rating: number;
-  availability: number; // consider using quantity property instead of this 
+  quantity: number;
   additional_images?: Array<{ image: string }>;
   dimensions: string;
   material: string;
 }
 
 export interface CartItem extends Product {
-  quantity: number
+  maxQuantity?: number
 }
 
 export default function ProductPage() {
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [priceRange, setPriceRange] = useState([0, 100])
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -44,21 +45,20 @@ export default function ProductPage() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-        try {
-          const response = await fetch('http://127.0.0.1:8000/api/products/')
-          if (response.ok) {
-            const data = await response.json()
-            setProducts(data)
-          } else {
-            console.error('Failed to fetch Products')
-          }
-        } catch (error) {
-          console.error('Error fetching products')
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/products/')
+        if (response.ok) {
+          const data = await response.json()
+          setProducts(data)
+        } else {
+          console.error('Failed to fetch Products')
         }
+      } catch (error) {
+        console.error('Error fetching products')
       }
+    }
     fetchProducts()
-    }, [])
-
+  }, [])
 
   const categories = Array.from(new Set(products.map(product => product.category)))
 
@@ -91,25 +91,22 @@ export default function ProductPage() {
   }, [searchTerm, priceRange, selectedCategories, sortOption])
 
   const addToCart = useStore((state) => state.addToCart);
-  const handleAddToCart = (product:Product) => {
+  const handleAddToCart = (product: Product) => {
     addToCart(product);
   };
-
-  const cart = useStore((state) => state.cartItems);
-  const removeFromCart = useStore((state) => state.removeFromCart);
-  const totalItems = cartItems.reduce((a, c) => a + c.quantity, 0)
-
-  
 
   const handleAddToWishlist = (product: Product) => {
     // Implement wishlist functionality here
     console.log("Added to wishlist:", product)
   }
 
+  const handleProductClick = (product: Product) => {
+    router.push(`/product/${product.id}`)
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section with Parallax Effect */}
-
       <section className="relative h-[60vh] overflow-hidden">
         <div className="absolute inset-0 bg-[url('/Assets/products-hero1.jpeg')] bg-cover bg-center transform motion-safe:animate-subtle-zoom" />
         <div className="absolute inset-0 bg-black/50" />
@@ -208,73 +205,15 @@ export default function ProductPage() {
               </div>
             </SheetContent>
           </Sheet>
-
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="relative">
-                <ShoppingCart size={20} />
-                {cart.length > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-green-600">
-                    {cart.length}
-                  </Badge>
-                )}
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Shopping Cart</SheetTitle>
-              </SheetHeader>
-              <div className="mt-8">
-                {cart.map(item => (
-                  <div key={item.id} className="flex items-center gap-4 mb-4">
-                    <Image
-                      src={item.image || '/placeholder'}
-                      alt={item.name}
-                      width={60}
-                      height={60}
-                      className="rounded-md"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-medium">{item.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        ${item.price.toFixed(2)} x {item.quantity}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFromCart(item)}
-                    >
-                      <X size={16} />
-                    </Button>
-                  </div>
-                ))}
-                {cart.length > 0 ? (
-                  <div className="mt-6 space-y-4">
-                    <div className="flex justify-between font-medium">
-                      <span>Total</span>
-                      <span>${totalItems.toFixed(2)}</span>
-                    </div>
-                    <Button className="w-full bg-green-600 hover:bg-green-700">
-                      Checkout
-                    </Button>
-                  </div>
-                ) : (
-                  <p className="text-center text-gray-500">Your cart is empty</p>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
 
         {/* Product Grid */}
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedProducts.map((product) => (
-            <Card key={product.id} className="group">
+            <Card key={product.id} className="group cursor-pointer" onClick={() => handleProductClick(product)}>
               <CardHeader className="p-0 relative overflow-hidden">
                 <Image
-                  src={product.image || '/placeholder'}
+                  src={product.image || '/placeholder.svg'}
                   alt={product.name}
                   width={300}
                   height={200}
@@ -283,7 +222,10 @@ export default function ProductPage() {
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <Button
                     className="bg-white text-black hover:bg-gray-100"
-                    onClick={() => setSelectedProduct(product)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedProduct(product)
+                    }}
                   >
                     Quick View
                   </Button>
@@ -305,7 +247,10 @@ export default function ProductPage() {
                 <Button
                   size="sm"
                   className="bg-green-600 hover:bg-green-700"
-                  onClick={() => handleAddToCart(product)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleAddToCart(product)
+                  }}
                 >
                   Add to Cart
                 </Button>
@@ -315,7 +260,6 @@ export default function ProductPage() {
         </div>
 
         {/* Pagination Controls */}
-
         <div className="mt-8 flex justify-center items-center space-x-4">
           <Button
             variant="outline"
@@ -339,7 +283,6 @@ export default function ProductPage() {
         </div>
 
         {/* Product Details Modal */}
-
         {selectedProduct && (
           <ProductDetails
             product={selectedProduct}
@@ -348,7 +291,6 @@ export default function ProductPage() {
             onAddToWishlist={handleAddToWishlist}
           />
         )}
-      
       </main>
     </div>
   )
