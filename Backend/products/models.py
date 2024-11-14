@@ -7,7 +7,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     description = models.TextField(default='No description available')
     rating = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)
-    availability = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=10) 
     dimensions = models.CharField(max_length=255, default='Not Specified')
     material = models.CharField(max_length=255, default='Not Specified')
     created_at = models.DateTimeField(auto_now_add=True)

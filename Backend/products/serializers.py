@@ -7,8 +7,10 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'image']
 
 class ProductSerializer(serializers.ModelSerializer):
+
     additional_images = ProductImageSerializer(many=True, read_only=True)
     price = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    rating = serializers.DecimalField(max_digits=3, decimal_places=1, coerce_to_string=False)
 
     class Meta:
         model = Product
