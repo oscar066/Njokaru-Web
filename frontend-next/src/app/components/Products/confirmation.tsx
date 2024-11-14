@@ -31,6 +31,22 @@ export default function ConfirmationPage() {
   useEffect(() => {
     // In a real application, you would fetch the order details from your backend
 
+    // const fetchOrder = async () => {
+    //   try {
+    //     const response = await fetch('http://127.0.0.1:8000/api/order/')
+    //     if (response.ok) {
+    //       const data = await response.json()
+    //       setOrder(data)
+    //     } else {
+    //       console.error('Failed to fetch Orders')
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching Orders')
+    //   }
+    // }
+    // fetchOrder()
+    // }, [])
+
     // Here we're simulating that with a timeout and mock data
     const timeout = setTimeout(() => {
       setOrder({
@@ -77,7 +93,12 @@ export default function ConfirmationPage() {
               {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between items-center py-2">
                   <div className="flex items-center space-x-4">
-                    <Image src={item.image} alt={item.name} width={50} height={50} className="rounded-md" />
+                    <Image 
+                      src={item.image} 
+                      alt={item.name} 
+                      width={50} 
+                      height={50} 
+                      className="rounded-md" />
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
