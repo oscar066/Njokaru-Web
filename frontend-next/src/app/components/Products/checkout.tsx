@@ -11,14 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { toast } from "@/hooks/use-toast"
 import { CreditCard, Wallet } from 'lucide-react'
-import { CartItem } from "../Products/products"
 
-interface CheckoutProps {
-  cartItems?: CartItem[] // Make cartItems optional to avoid errors if not passed
-}
+import useStore from "@/store/store"
 
-export default function Checkout({ cartItems = [] }: CheckoutProps) { // Default to an empty array
+interface CheckoutProps {}
+
+export default function Checkout() { 
   const router = useRouter()
+  const cartItems = useStore((state) => state.cartItems)
   const [shippingDetails, setShippingDetails] = useState({
     fullName: '',
     address: '',
@@ -43,6 +43,30 @@ export default function Checkout({ cartItems = [] }: CheckoutProps) { // Default
       await new Promise(resolve => setTimeout(resolve, 2000))
       
       // Here you would typically send the order details to your backend
+
+      // const response = await fetch("http://127.0.0.1:8000/api/order/", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       cartItems,
+      //       shippingDetails,
+      //     }),
+      //   }
+      // );
+
+      // if (!response.ok){
+      //   throw new Error("Failed to place the order");
+      // }
+
+      // const data = await response.json();
+      // console.log("Order placed successfully:", data);
+
+      // // Redirect to a confirmation page
+
+      // router.push('/order-confirmation')
+
       console.log('Order submitted:', { shippingDetails, paymentMethod, cartItems })
       
       toast({
@@ -173,7 +197,7 @@ export default function Checkout({ cartItems = [] }: CheckoutProps) { // Default
               <div key={item.id} className="flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                   <Image 
-                    src={item.image} 
+                    src={item.image || '/placeholder'} 
                     alt={item.name} 
                     width={50} 
                     height={50} 
