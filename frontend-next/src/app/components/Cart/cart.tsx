@@ -10,14 +10,7 @@ import useStore from "@/store/store"
 import Image from "next/image"
 import Link from "next/link"
 
-interface CartItem {
-  id: number
-  name: string
-  price: number
-  quantity: number
-  image?: string
-  maxQuantity?: number
-}
+import { CartItem } from "../Products/products"
 
 interface CartProps {
   maxItemQuantity?: number
@@ -120,7 +113,7 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
                 >
                   <div className="relative w-16 h-16 overflow-hidden rounded-md">
                     <Image
-                      src={item.image}
+                      src={item.image || '/placeholder'}
                       alt={item.name}
                       width={60}
                       height={60}
