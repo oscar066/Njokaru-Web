@@ -1,37 +1,41 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function ForgetPassword() {
-  const [email, setEmail] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setMessage('')
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
 
     try {
       // Here you would typically call your API to handle the password reset
       // For this example, we'll simulate an API call with a timeout
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      setMessage('If an account exists for ' + email + ', you will receive a password reset link shortly.')
-      setEmail('')
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setMessage(
+        "If an account exists for " +
+          email +
+          ", you will receive a password reset link shortly.",
+      );
+      setEmail("");
     } catch (error) {
-      setMessage('An error occurred. Please try again.')
+      setMessage("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <section className="min-h-screen w-full flex items-center justify-center bg-green-50">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -42,7 +46,8 @@ export default function ForgetPassword() {
             Forgot your password?
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email address and we&apos;ll send you a link to reset your password.
+            Enter your email address and we&apos;ll send you a link to reset
+            your password.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -74,12 +79,28 @@ export default function ForgetPassword() {
               disabled={isLoading}
             >
               {isLoading ? (
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
               ) : (
-                'Reset Password'
+                "Reset Password"
               )}
             </motion.button>
           </div>
@@ -95,7 +116,7 @@ export default function ForgetPassword() {
         )}
         <div className="text-center">
           <button
-            onClick={() => router.push('/auth/login')}
+            onClick={() => router.push("/auth/login")}
             className="font-medium text-green-600 hover:text-green-500"
           >
             Back to Login
@@ -103,5 +124,5 @@ export default function ForgetPassword() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }

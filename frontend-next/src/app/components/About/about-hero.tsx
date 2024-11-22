@@ -1,9 +1,7 @@
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-
-import aboutImage from '../../../../public/Assets/jason-dent.jpg';
-
+import aboutImage from "../../../../public/Assets/jason-dent.jpg";
 
 export default function AboutUsHero() {
   return (
@@ -24,19 +22,23 @@ export default function AboutUsHero() {
               Our Story of Growth
             </h1>
             <p className="mx-auto max-w-[700px] text-gray-200 md:text-xl">
-              From humble beginnings to becoming your trusted partner in creating beautiful, sustainable gardens.
+              From humble beginnings to becoming your trusted partner in
+              creating beautiful, sustainable gardens.
             </p>
           </div>
           <div className="space-x-4">
             <Button className="bg-green-600 hover:bg-green-700 text-white">
               Our Mission
             </Button>
-            <Button variant="outline" className="text-gray-800 border-white hover:bg-white hover:text-green-800">
+            <Button
+              variant="outline"
+              className="text-gray-800 border-white hover:bg-white hover:text-green-800"
+            >
               Meet the Team
             </Button>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,11 +1,16 @@
-'use client'
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavItemProps {
   href: string;
@@ -14,20 +19,20 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ href, children, onClick }) => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <Link href={href} onClick={onClick}>
       <span
         className={`text-white hover:text-green-300 px-3 py-2 rounded-md text-opacity-85 font-medium font-serif ${
-          pathname === href ? 'bg-green-700' : ''
+          pathname === href ? "bg-green-700" : ""
         }`}
       >
         {children}
       </span>
     </Link>
-  )
-}
+  );
+};
 
 interface NavMenuProps {
   isLoggedIn: boolean;
@@ -37,32 +42,42 @@ interface NavMenuProps {
   onItemClick?: () => void;
 }
 
-const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, isAdmin, handleLogout, isMobile, onItemClick }) => {
+const NavMenu: React.FC<NavMenuProps> = ({
+  isLoggedIn,
+  isAdmin,
+  handleLogout,
+  isMobile,
+  onItemClick,
+}) => {
   const menuItems = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/services', label: 'Services' },
-    { href: '/products', label: 'Products' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/contacts', label: 'Contact' },
-  ]
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/services", label: "Services" },
+    { href: "/products", label: "Products" },
+    { href: "/blog", label: "Blog" },
+    { href: "/contacts", label: "Contact" },
+  ];
 
   const authItems = isLoggedIn
     ? [
-        { href: '/profile', label: 'Profile' },
-        { href: '#', label: 'Logout', onClick: handleLogout },
+        { href: "/profile", label: "Profile" },
+        { href: "#", label: "Logout", onClick: handleLogout },
       ]
     : [
-        { href: '/auth/login', label: 'Login' },
-        { href: '/auth/signup', label: 'Sign Up' },
-      ]
+        { href: "/auth/login", label: "Login" },
+        { href: "/auth/signup", label: "Sign Up" },
+      ];
 
   if (isAdmin) {
-    authItems.unshift({ href: '/admin/dashboard', label: 'Admin Dashboard' });
+    authItems.unshift({ href: "/admin/dashboard", label: "Admin Dashboard" });
   }
 
   return (
-    <div className={`${isMobile ? 'flex flex-col space-y-4' : 'flex items-center space-x-4'}`}>
+    <div
+      className={`${
+        isMobile ? "flex flex-col space-y-4" : "flex items-center space-x-4"
+      }`}
+    >
       {menuItems.map((item) => (
         <NavItem key={item.href} href={item.href} onClick={onItemClick}>
           {item.label}
@@ -70,10 +85,14 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, isAdmin, handleLogout, is
       ))}
       {isMobile ? (
         authItems.map((item) => (
-          <NavItem key={item.href} href={item.href} onClick={() => {
-            if (item.onClick) item.onClick()
-            if (onItemClick) onItemClick()
-          }}>
+          <NavItem
+            key={item.href}
+            href={item.href}
+            onClick={() => {
+              if (item.onClick) item.onClick();
+              if (onItemClick) onItemClick();
+            }}
+          >
             {item.label}
           </NavItem>
         ))
@@ -96,8 +115,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isLoggedIn, isAdmin, handleLogout, is
         </DropdownMenu>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default NavMenu;
-

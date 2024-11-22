@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import SignupPage from '@/app/components/Signup/signup';
+import React from "react";
+import SignupPage from "@/app/components/Signup/signup";
 
 const Signup: React.FC = () => {
   return (

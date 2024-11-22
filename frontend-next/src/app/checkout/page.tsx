@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import Checkout from '../components/Products/checkout'
+import Checkout from "../components/Products/checkout";
 
 const CheckoutPage: React.FC = () => {
-    return (
-      <div className="pt-8"> 
-        <Checkout />
-      </div>
-    );
-  };
-  
-  export default CheckoutPage;
+  return (
+    <div className="pt-8">
+      <Checkout />
+    </div>
+  );
+};
+
+export default CheckoutPage;

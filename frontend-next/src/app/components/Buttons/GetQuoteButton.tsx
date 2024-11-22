@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,26 +9,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function QuoteButton() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     // Here you would typically send the form data to your server
-    console.log('Form submitted')
-    setIsOpen(false)
-  }
+    console.log("Form submitted");
+    setIsOpen(false);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-green-500 hover:bg-green-700 text-white">Get a Quote</Button>
+        <Button className="bg-green-500 hover:bg-green-700 text-white">
+          Get a Quote
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -39,24 +41,57 @@ export default function QuoteButton() {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-green-700">Name</Label>
-            <Input id="name" placeholder="Your name" required className="border-green-700 focus:ring-green-700" />
+            <Label htmlFor="name" className="text-green-700">
+              Name
+            </Label>
+            <Input
+              id="name"
+              placeholder="Your name"
+              required
+              className="border-green-700 focus:ring-green-700"
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-green-700">Email</Label>
-            <Input id="email" type="email" placeholder="Your email" required className="border-green-700 focus:ring-green-700" />
+            <Label htmlFor="email" className="text-green-700">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Your email"
+              required
+              className="border-green-700 focus:ring-green-700"
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="service" className="text-green-700">Service</Label>
-            <Input id="service" placeholder="Service you're interested in" required className="border-green-700 focus:ring-green-700" />
+            <Label htmlFor="service" className="text-green-700">
+              Service
+            </Label>
+            <Input
+              id="service"
+              placeholder="Service you're interested in"
+              required
+              className="border-green-700 focus:ring-green-700"
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="message" className="text-green-700">Additional Details</Label>
-            <Textarea id="message" placeholder="Any additional details..." className="border-green-700 focus:ring-green-700" />
+            <Label htmlFor="message" className="text-green-700">
+              Additional Details
+            </Label>
+            <Textarea
+              id="message"
+              placeholder="Any additional details..."
+              className="border-green-700 focus:ring-green-700"
+            />
           </div>
-          <Button type="submit" className="w-full bg-green-700 hover:bg-green-800 text-white">Submit</Button>
+          <Button
+            type="submit"
+            className="w-full bg-green-700 hover:bg-green-800 text-white"
+          >
+            Submit
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

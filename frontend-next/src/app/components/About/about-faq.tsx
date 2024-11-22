@@ -1,43 +1,48 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 interface FAQ {
-  question: string
-  answer: string
+  question: string;
+  answer: string;
 }
 
 const faqs: FAQ[] = [
   {
     question: "What services does NJOKARU offer?",
-    answer: "NJOKARU offers a wide range of services including garden design, landscaping, regular maintenance, and more."
+    answer:
+      "NJOKARU offers a wide range of services including garden design, landscaping, regular maintenance, and more.",
   },
   {
     question: "Can NJOKARU handle large-scale landscaping projects?",
-    answer: "Yes, NJOKARU has experience in landscaping projects of all sizes, from small backyard gardens to extensive commercial spaces."
+    answer:
+      "Yes, NJOKARU has experience in landscaping projects of all sizes, from small backyard gardens to extensive commercial spaces.",
   },
   {
     question: "What kind of maintenance services does NJOKARU offer?",
-    answer: "NJOKARU provides comprehensive maintenance services including lawn mowing, pruning, weeding, fertilizing, pest control, and irrigation system maintenance."
+    answer:
+      "NJOKARU provides comprehensive maintenance services including lawn mowing, pruning, weeding, fertilizing, pest control, and irrigation system maintenance.",
   },
   {
     question: "Does NJOKARU also offer tree removal or planting services?",
-    answer: "Yes, NJOKARU can handle tree removal and planting services, ensuring safety and proper techniques are used."
+    answer:
+      "Yes, NJOKARU can handle tree removal and planting services, ensuring safety and proper techniques are used.",
   },
   {
     question: "What are the factors NJOKARU considers when designing a garden?",
-    answer: "NJOKARU takes into account various elements such as your desired style, the size and shape of your space, existing features, and local climate to create a personalized garden design."
+    answer:
+      "NJOKARU takes into account various elements such as your desired style, the size and shape of your space, existing features, and local climate to create a personalized garden design.",
   },
-]
+];
 
 export default function FAQSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index)
-  }
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-green-50">
@@ -47,17 +52,22 @@ export default function FAQSection() {
         </h2>
         <div className="space-y-6">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-md overflow-hidden"
+            >
               <button
                 className="flex justify-between items-center w-full text-left p-6 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                 onClick={() => toggleFAQ(index)}
                 aria-expanded={activeIndex === index}
                 aria-controls={`faq-answer-${index}`}
               >
-                <span className="text-lg font-semibold text-gray-800">{faq.question}</span>
+                <span className="text-lg font-semibold text-gray-800">
+                  {faq.question}
+                </span>
                 <ChevronDown
                   className={`w-5 h-5 text-green-600 transform transition-transform duration-200 ${
-                    activeIndex === index ? 'rotate-180' : ''
+                    activeIndex === index ? "rotate-180" : ""
                   }`}
                 />
               </button>
@@ -65,9 +75,12 @@ export default function FAQSection() {
                 {activeIndex === index && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
+                    animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                    transition={{
+                      duration: 0.3,
+                      ease: [0.04, 0.62, 0.23, 0.98],
+                    }}
                   >
                     <div className="px-6 pb-6" id={`faq-answer-${index}`}>
                       <p className="text-gray-600">{faq.answer}</p>
@@ -80,5 +93,5 @@ export default function FAQSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

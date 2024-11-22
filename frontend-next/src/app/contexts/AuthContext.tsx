@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 type AuthState = {
   isAuthenticated: boolean;
@@ -8,8 +8,8 @@ type AuthState = {
 };
 
 type AuthAction =
-  | { type: 'LOGIN'; payload: { email: string; isAdmin: boolean } }
-  | { type: 'LOGOUT' };
+  | { type: "LOGIN"; payload: { email: string; isAdmin: boolean } }
+  | { type: "LOGOUT" };
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -23,13 +23,13 @@ const AuthContext = createContext<{
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload,
       };
-    case 'LOGOUT':
+    case "LOGOUT":
       return {
         ...state,
         isAuthenticated: false,
@@ -40,16 +40,18 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userEmail = localStorage.getItem('userEmail');
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-    
+    const token = localStorage.getItem("token");
+    const userEmail = localStorage.getItem("userEmail");
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+
     if (token && userEmail) {
-      dispatch({ type: 'LOGIN', payload: { email: userEmail, isAdmin } });
+      dispatch({ type: "LOGIN", payload: { email: userEmail, isAdmin } });
     }
   }, []);
 
@@ -61,4 +63,3 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 export const useAuth = () => useContext(AuthContext);
-

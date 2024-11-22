@@ -1,31 +1,53 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { AlertCircle, CheckCircle2, Phone, Mail, Clock, MapPin, MessageCircle } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Card, CardContent } from "@/components/ui/card"
-import { motion, AnimatePresence } from "framer-motion"
-import ChatSupport from '../Chatbot-Support/chatSupport'
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Phone,
+  Mail,
+  Clock,
+  MapPin,
+  MessageCircle,
+} from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion, AnimatePresence } from "framer-motion";
+import ChatSupport from "../Chatbot-Support/chatSupport";
 
 interface FormData {
-  fullName: string
-  email: string
-  phoneNumber: string
-  serviceType: string
-  message: string
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  serviceType: string;
+  message: string;
 }
 
 interface SubmitStatus {
-  type: 'success' | 'error'
-  message: string
+  type: "success" | "error";
+  message: string;
 }
 
-const ContactInfoCard = ({ icon: Icon, title, content }: { icon: React.ElementType, title: string, content: string }) => (
+const ContactInfoCard = ({
+  icon: Icon,
+  title,
+  content,
+}: {
+  icon: React.ElementType;
+  title: string;
+  content: string;
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -43,62 +65,68 @@ const ContactInfoCard = ({ icon: Icon, title, content }: { icon: React.ElementTy
       </CardContent>
     </Card>
   </motion.div>
-)
+);
 
 export default function Contact() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    serviceType: '',
-    message: '',
-  })
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    serviceType: "",
+    message: "",
+  });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null)
-  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSelectChange = (value: string) => {
     setFormData((prevData) => ({
       ...prevData,
       serviceType: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus(null)
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
     try {
       // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      setSubmitStatus({ type: 'success', message: "Your message has been received. We'll get back to you soon!" })
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setSubmitStatus({
+        type: "success",
+        message: "Your message has been received. We'll get back to you soon!",
+      });
       setFormData({
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        serviceType: '',
-        message: '',
-      })
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        serviceType: "",
+        message: "",
+      });
     } catch (error) {
-      console.error('Error:', error)
-      setSubmitStatus({ type: 'error', message: 'An error occurred. Please try again later.' })
+      console.error("Error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "An error occurred. Please try again later.",
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-20 px-4 sm:px-6 lg:px-8">
@@ -109,9 +137,12 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl font-bold text-green-700 mb-4 font-serif">Get in Touch</h1>
+          <h1 className="text-4xl font-bold text-green-700 mb-4 font-serif">
+            Get in Touch
+          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions about our services? We&apos;re here to help and answer any question you might have.
+            Have questions about our services? We&apos;re here to help and
+            answer any question you might have.
           </p>
         </motion.div>
 
@@ -139,7 +170,7 @@ export default function Contact() {
                 content="Edenville Villas Phase 1, Kiambu"
               />
             </div>
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -164,8 +195,10 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
             className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
           >
-            <h2 className="text-2xl font-bold mb-6 text-green-700 font-serif">Send us a Message</h2>
-            
+            <h2 className="text-2xl font-bold mb-6 text-green-700 font-serif">
+              Send us a Message
+            </h2>
+
             <AnimatePresence>
               {submitStatus && (
                 <motion.div
@@ -174,16 +207,21 @@ export default function Contact() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Alert 
-                    variant={submitStatus.type === 'success' ? "default" : "destructive"} 
+                  <Alert
+                    variant={
+                      submitStatus.type === "success"
+                        ? "default"
+                        : "destructive"
+                    }
                     className="mb-6"
                   >
-                    {submitStatus.type === 'success' ? 
-                      <CheckCircle2 className="h-4 w-4" /> : 
+                    {submitStatus.type === "success" ? (
+                      <CheckCircle2 className="h-4 w-4" />
+                    ) : (
                       <AlertCircle className="h-4 w-4" />
-                    }
+                    )}
                     <AlertTitle>
-                      {submitStatus.type === 'success' ? 'Success' : 'Error'}
+                      {submitStatus.type === "success" ? "Success" : "Error"}
                     </AlertTitle>
                     <AlertDescription>{submitStatus.message}</AlertDescription>
                   </Alert>
@@ -193,7 +231,9 @@ export default function Contact() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-gray-700">Full Name</Label>
+                <Label htmlFor="fullName" className="text-gray-700">
+                  Full Name
+                </Label>
                 <Input
                   id="fullName"
                   name="fullName"
@@ -207,7 +247,9 @@ export default function Contact() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700">Email</Label>
+                  <Label htmlFor="email" className="text-gray-700">
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     name="email"
@@ -220,7 +262,9 @@ export default function Contact() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phoneNumber" className="text-gray-700">Phone Number</Label>
+                  <Label htmlFor="phoneNumber" className="text-gray-700">
+                    Phone Number
+                  </Label>
                   <Input
                     id="phoneNumber"
                     name="phoneNumber"
@@ -235,15 +279,27 @@ export default function Contact() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="serviceType" className="text-gray-700">Service Type</Label>
-                <Select onValueChange={handleSelectChange} value={formData.serviceType}>
-                  <SelectTrigger id="serviceType" className="focus:ring-green-500 focus:border-green-500">
+                <Label htmlFor="serviceType" className="text-gray-700">
+                  Service Type
+                </Label>
+                <Select
+                  onValueChange={handleSelectChange}
+                  value={formData.serviceType}
+                >
+                  <SelectTrigger
+                    id="serviceType"
+                    className="focus:ring-green-500 focus:border-green-500"
+                  >
                     <SelectValue placeholder="Select a service type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Grass Trimming">Grass Trimming</SelectItem>
+                    <SelectItem value="Grass Trimming">
+                      Grass Trimming
+                    </SelectItem>
                     <SelectItem value="Lawn Mowing">Lawn Mowing</SelectItem>
-                    <SelectItem value="Soil Treatment">Soil Treatment</SelectItem>
+                    <SelectItem value="Soil Treatment">
+                      Soil Treatment
+                    </SelectItem>
                     <SelectItem value="Garden Design">Garden Design</SelectItem>
                     <SelectItem value="Plant Care">Plant Care</SelectItem>
                   </SelectContent>
@@ -251,7 +307,9 @@ export default function Contact() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message" className="text-gray-700">Message</Label>
+                <Label htmlFor="message" className="text-gray-700">
+                  Message
+                </Label>
                 <Textarea
                   id="message"
                   name="message"
@@ -264,28 +322,44 @@ export default function Contact() {
                 />
               </div>
 
-              <Button 
-                type="submit" 
-                disabled={isSubmitting} 
+              <Button
+                type="submit"
+                disabled={isSubmitting}
                 className="w-full bg-green-700 hover:bg-green-600 text-white font-serif py-6 transition-colors duration-300"
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Submitting...
                   </>
                 ) : (
-                  'Send Message'
+                  "Send Message"
                 )}
               </Button>
             </form>
           </motion.div>
         </div>
       </div>
-      
+
       <div className="fixed bottom-4 right-4 z-50">
         <Button
           onClick={() => setIsChatOpen(!isChatOpen)}
@@ -294,8 +368,8 @@ export default function Contact() {
           <MessageCircle size={24} />
         </Button>
       </div>
-      
+
       {isChatOpen && <ChatSupport onClose={() => setIsChatOpen(false)} />}
     </div>
-  )
+  );
 }

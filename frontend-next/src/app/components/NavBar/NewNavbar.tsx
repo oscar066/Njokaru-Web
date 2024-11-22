@@ -1,26 +1,29 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import NavMenu from './NavMenu';
-import { useAuth } from '@/app/contexts/AuthContext';
-import Cart from '../Cart/cart';
+import NavMenu from "./NavMenu";
+import { useAuth } from "@/app/contexts/AuthContext";
+import Cart from "../Cart/cart";
 
 const NavBar: React.FC = () => {
-  const { state: { isAuthenticated, user }, dispatch } = useAuth();
+  const {
+    state: { isAuthenticated, user },
+    dispatch,
+  } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleLogout = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('isAdmin');
-    dispatch({ type: 'LOGOUT' });
-    router.push('/');
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("isAdmin");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
   };
 
   const handleMobileMenuClose = () => {
@@ -33,13 +36,19 @@ const NavBar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/">
-              <span className="flex-shrink-0 text-white font-bold text-xl font-serif">NJOKARU</span>
+              <span className="flex-shrink-0 text-white font-bold text-xl font-serif">
+                NJOKARU
+              </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <NavMenu isLoggedIn={isAuthenticated} isAdmin={user?.isAdmin} handleLogout={handleLogout} />
+            <NavMenu
+              isLoggedIn={isAuthenticated}
+              isAdmin={user?.isAdmin}
+              handleLogout={handleLogout}
+            />
             <div className="ml-4 flex items-center space-x-4">
               <Cart />
               {isAuthenticated && (
@@ -76,18 +85,18 @@ const NavBar: React.FC = () => {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent 
-                side="right" 
+              <SheetContent
+                side="right"
                 className="w-[300px] sm:w-[400px] bg-green-800"
               >
                 <div className="flex flex-col h-full">
                   <div className="flex-1">
-                    <NavMenu 
-                      isLoggedIn={isAuthenticated} 
+                    <NavMenu
+                      isLoggedIn={isAuthenticated}
                       isAdmin={user?.isAdmin}
-                      handleLogout={handleLogout} 
-                      isMobile 
-                      onItemClick={handleMobileMenuClose} 
+                      handleLogout={handleLogout}
+                      isMobile
+                      onItemClick={handleMobileMenuClose}
                     />
                   </div>
                 </div>

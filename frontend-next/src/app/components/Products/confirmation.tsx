@@ -1,32 +1,39 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { CheckCircle, Truck, Calendar, ArrowLeft } from 'lucide-react'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { CheckCircle, Truck, Calendar, ArrowLeft } from "lucide-react";
 
 interface OrderItem {
-  id: number
-  name: string
-  price: number
-  quantity: number
-  image: string
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
 }
 
 interface OrderDetails {
-  orderId: string
-  items: OrderItem[]
-  total: number
-  shippingAddress: string
-  estimatedDelivery: string
+  orderId: string;
+  items: OrderItem[];
+  total: number;
+  shippingAddress: string;
+  estimatedDelivery: string;
 }
 
 export default function ConfirmationPage() {
-  const router = useRouter()
-  const [order, setOrder] = useState<OrderDetails | null>(null)
+  const router = useRouter();
+  const [order, setOrder] = useState<OrderDetails | null>(null);
 
   useEffect(() => {
     // In a real application, you would fetch the order details from your backend
@@ -50,26 +57,38 @@ export default function ConfirmationPage() {
     // Here we're simulating that with a timeout and mock data
     const timeout = setTimeout(() => {
       setOrder({
-        orderId: 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+        orderId: "ORD-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
         items: [
-          { id: 1, name: "Organic Green Tea", price: 15.99, quantity: 2, image: "/placeholder.svg" },
-          { id: 2, name: "Herbal Infusion Set", price: 24.99, quantity: 1, image: "/placeholder.svg" },
+          {
+            id: 1,
+            name: "Organic Green Tea",
+            price: 15.99,
+            quantity: 2,
+            image: "/placeholder.svg",
+          },
+          {
+            id: 2,
+            name: "Herbal Infusion Set",
+            price: 24.99,
+            quantity: 1,
+            image: "/placeholder.svg",
+          },
         ],
         total: 56.97,
         shippingAddress: "123 Tea Lane, Leaf City, TC 12345",
         estimatedDelivery: "June 15, 2023",
-      })
-    }, 1000)
+      });
+    }, 1000);
 
-    return () => clearTimeout(timeout)
-  }, [])
+    return () => clearTimeout(timeout);
+  }, []);
 
   if (!order) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -78,33 +97,46 @@ export default function ConfirmationPage() {
         <CardHeader>
           <div className="flex items-center space-x-2">
             <CheckCircle className="h-8 w-8 text-green-500" />
-            <CardTitle className="text-2xl font-bold text-green-700">Order Confirmed!</CardTitle>
+            <CardTitle className="text-2xl font-bold text-green-700">
+              Order Confirmed!
+            </CardTitle>
           </div>
           <CardDescription>
-            Thank you for your purchase. Your order has been received and is being processed.
+            Thank you for your purchase. Your order has been received and is
+            being processed.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-semibold mb-2">Order Details</h3>
-              <p><strong>Order Number:</strong> {order.orderId}</p>
+              <p>
+                <strong>Order Number:</strong> {order.orderId}
+              </p>
               <Separator className="my-2" />
               {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between items-center py-2">
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center py-2"
+                >
                   <div className="flex items-center space-x-4">
-                    <Image 
-                      src={item.image} 
-                      alt={item.name} 
-                      width={50} 
-                      height={50} 
-                      className="rounded-md" />
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={50}
+                      height={50}
+                      className="rounded-md"
+                    />
                     <div>
                       <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                      <p className="text-sm text-gray-500">
+                        Quantity: {item.quantity}
+                      </p>
                     </div>
                   </div>
-                  <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-medium">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               ))}
               <Separator className="my-2" />
@@ -114,7 +146,9 @@ export default function ConfirmationPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-2">Shipping Information</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Shipping Information
+              </h3>
               <p>{order.shippingAddress}</p>
             </div>
             <div className="flex items-center space-x-2 text-gray-600">
@@ -124,14 +158,21 @@ export default function ConfirmationPage() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={() => router.push('/products')} className="flex items-center">
+          <Button
+            variant="outline"
+            onClick={() => router.push("/products")}
+            className="flex items-center"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" /> Continue Shopping
           </Button>
-          <Button onClick={() => window.print()} className="bg-green-700 hover:bg-green-600">
+          <Button
+            onClick={() => window.print()}
+            className="bg-green-700 hover:bg-green-600"
+          >
             <Calendar className="mr-2 h-4 w-4" /> Save to Calendar
           </Button>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

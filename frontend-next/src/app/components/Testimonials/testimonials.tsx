@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import React from 'react'
-import Image from 'next/image'
-import { Star } from 'lucide-react'
-import { Card, CardContent } from "@/components/ui/card"
+import React from "react";
+import Image from "next/image";
+import { Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { testimonials, Testimonial } from './testimonials-data'
+} from "@/components/ui/carousel";
+import { testimonials, Testimonial } from "./testimonials-data";
 
 export function Testimonials() {
   return (
@@ -33,7 +33,7 @@ export function Testimonials() {
         </Carousel>
       </div>
     </section>
-  )
+  );
 }
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
@@ -49,14 +49,21 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             className="object-cover w-full h-full"
           />
         </div>
-        <h3 className="text-xl font-semibold text-gray-800 mb-2">{testimonial.name}</h3>
+        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+          {testimonial.name}
+        </h3>
         <p className="text-gray-600 mb-2">{testimonial.position}</p>
-        <div className="flex items-center mb-4" aria-label={`Rating: ${testimonial.rating} out of 5 stars`}>
+        <div
+          className="flex items-center mb-4"
+          aria-label={`Rating: ${testimonial.rating} out of 5 stars`}
+        >
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
               className={`w-5 h-5 ${
-                i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                i < testimonial.rating
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-300"
               }`}
             />
           ))}
@@ -64,6 +71,5 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         <p className="text-gray-700 italic">{testimonial.testimonial}</p>
       </CardContent>
     </Card>
-  )
+  );
 }
-

@@ -1,22 +1,22 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Facebook, Twitter, Linkedin, Github } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Facebook, Twitter, Linkedin, Github } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface TeamMember {
-  name: string
-  role: string
-  image: string
-  bio: string
-  expertise: string[]
-  education: string
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+  expertise: string[];
+  education: string;
   socials: {
-    facebook?: string
-    twitter?: string
-    linkedin?: string
-    github?: string
-  }
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+  };
 }
 
 const teamMembers: TeamMember[] = [
@@ -25,7 +25,11 @@ const teamMembers: TeamMember[] = [
     role: "CEO & Founder",
     image: "/placeholder.svg?height=200&width=200",
     bio: "John has over 15 years of experience in landscape design and business management. He founded NJOKARU with a vision to transform Kenya's outdoor spaces.",
-    expertise: ["Landscape Design", "Business Strategy", "Sustainable Practices"],
+    expertise: [
+      "Landscape Design",
+      "Business Strategy",
+      "Sustainable Practices",
+    ],
     education: "MBA in Sustainable Business, University of Nairobi",
     socials: {
       twitter: "https://twitter.com/johndoe",
@@ -50,7 +54,8 @@ const teamMembers: TeamMember[] = [
     image: "/placeholder.svg?height=200&width=200",
     bio: "Mike's passion for plants and extensive knowledge of East African flora make him an invaluable asset to our design team.",
     expertise: ["Plant Selection", "Soil Science", "Xeriscaping"],
-    education: "BSc in Horticulture, Jomo Kenyatta University of Agriculture and Technology",
+    education:
+      "BSc in Horticulture, Jomo Kenyatta University of Agriculture and Technology",
     socials: {
       linkedin: "https://linkedin.com/in/mikejohnson",
       github: "https://github.com/mikejohnson",
@@ -68,7 +73,7 @@ const teamMembers: TeamMember[] = [
       twitter: "https://twitter.com/sarahwilliams",
     },
   },
-]
+];
 
 export default function Team() {
   return (
@@ -81,10 +86,19 @@ export default function Team() {
               <CardContent className="p-6">
                 <Avatar className="w-32 h-32 mx-auto mb-4">
                   <AvatarImage src={member.image} alt={member.name} />
-                  <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                  <AvatarFallback>
+                    {member.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
                 </Avatar>
-                <h3 className="font-semibold text-lg text-center mb-1">{member.name}</h3>
-                <p className="text-muted-foreground text-center mb-4">{member.role}</p>
+                <h3 className="font-semibold text-lg text-center mb-1">
+                  {member.name}
+                </h3>
+                <p className="text-muted-foreground text-center mb-4">
+                  {member.role}
+                </p>
                 <p className="text-sm text-gray-600 mb-4">{member.bio}</p>
                 <div className="mb-4">
                   <h4 className="font-semibold text-sm mb-2">Expertise:</h4>
@@ -95,26 +109,43 @@ export default function Team() {
                   </ul>
                 </div>
                 <p className="text-sm text-gray-600 mb-4">
-                  <span className="font-semibold">Education:</span> {member.education}
+                  <span className="font-semibold">Education:</span>{" "}
+                  {member.education}
                 </p>
                 <div className="flex justify-center space-x-4 mb-4">
                   {member.socials.facebook && (
-                    <Link href={member.socials.facebook} target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={member.socials.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </Link>
                   )}
                   {member.socials.twitter && (
-                    <Link href={member.socials.twitter} target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={member.socials.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </Link>
                   )}
                   {member.socials.linkedin && (
-                    <Link href={member.socials.linkedin} target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={member.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </Link>
                   )}
                   {member.socials.github && (
-                    <Link href={member.socials.github} target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={member.socials.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Github className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </Link>
                   )}
@@ -128,5 +159,5 @@ export default function Team() {
         </div>
       </div>
     </section>
-  )
+  );
 }

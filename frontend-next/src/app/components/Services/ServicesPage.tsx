@@ -1,39 +1,57 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose, DialogFooter } from "@/components/ui/dialog"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
-import serviceData from './servicesData'
+import React, { useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import serviceData from "./servicesData";
 
 interface ServiceData {
-  id: number
-  title: string
-  description: string
-  icon: React.ReactNode
-  details?: string
+  id: number;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  details?: string;
 }
 
 const ServicesPage: React.FC = () => {
-  const [selectedService, setSelectedService] = useState<ServiceData | null>(null)
-  const [isQuoteDialogOpen, setIsQuoteDialogOpen] = useState(false)
-  const { toast } = useToast()
+  const [selectedService, setSelectedService] = useState<ServiceData | null>(
+    null,
+  );
+  const [isQuoteDialogOpen, setIsQuoteDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleQuoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     // Here you would typically send the form data to your backend
     toast({
       title: "Quote Request Submitted",
       description: `We've received your request for ${selectedService?.title}. We'll get back to you soon!`,
-    })
-    setIsQuoteDialogOpen(false)
-  }
+    });
+    setIsQuoteDialogOpen(false);
+  };
 
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-gray-100">
@@ -43,24 +61,34 @@ const ServicesPage: React.FC = () => {
             OUR <span className="text-green-700">SERVICES</span>
           </h2>
           <p className="text-xl text-gray-600">
-            Discover tailored landscaping solutions to enhance your outdoor spaces.
+            Discover tailored landscaping solutions to enhance your outdoor
+            spaces.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {serviceData.map((service: ServiceData) => (
-            <Card key={service.id} className="transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl">
+            <Card
+              key={service.id}
+              className="transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl"
+            >
               <CardHeader>
-                <div className="text-4xl text-green-700 mb-4">{service.icon}</div>
-                <CardTitle className="text-xl font-semibold text-gray-800">{service.title}</CardTitle>
+                <div className="text-4xl text-green-700 mb-4">
+                  {service.icon}
+                </div>
+                <CardTitle className="text-xl font-semibold text-gray-800">
+                  {service.title}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600">{service.description}</CardDescription>
+                <CardDescription className="text-gray-600">
+                  {service.description}
+                </CardDescription>
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button 
-                      variant="link" 
+                    <Button
+                      variant="link"
                       className="text-green-700 hover:text-green-800 transition-colors duration-200"
                       onClick={() => setSelectedService(service)}
                     >
@@ -71,7 +99,9 @@ const ServicesPage: React.FC = () => {
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                       <DialogTitle className="text-2xl font-semibold text-gray-800 flex items-center">
-                        <span className="text-4xl text-green-700 mr-4">{service.icon}</span>
+                        <span className="text-4xl text-green-700 mr-4">
+                          {service.icon}
+                        </span>
                         {service.title}
                       </DialogTitle>
                       <DialogDescription className="text-gray-600">
@@ -80,18 +110,19 @@ const ServicesPage: React.FC = () => {
                     </DialogHeader>
                     <ScrollArea className="mt-4 max-h-[60vh]">
                       <p className="text-gray-700">
-                        {service.details || "More details about this service will be available soon. Please check back later or contact us for more information."}
+                        {service.details ||
+                          "More details about this service will be available soon. Please check back later or contact us for more information."}
                       </p>
                     </ScrollArea>
                     <div className="mt-4 flex justify-between">
                       <DialogClose asChild>
                         <Button variant="outline">Close</Button>
                       </DialogClose>
-                      <Button 
+                      <Button
                         className="bg-green-700 hover:bg-green-600 text-white"
                         onClick={() => {
-                          setIsQuoteDialogOpen(true)
-                          setSelectedService(service)
+                          setIsQuoteDialogOpen(true);
+                          setSelectedService(service);
                         }}
                       >
                         Request Quote
@@ -99,12 +130,12 @@ const ServicesPage: React.FC = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="text-green-700 border-green-700 hover:bg-green-50"
                   onClick={() => {
-                    setIsQuoteDialogOpen(true)
-                    setSelectedService(service)
+                    setIsQuoteDialogOpen(true);
+                    setSelectedService(service);
                   }}
                 >
                   Request Quote
@@ -117,9 +148,12 @@ const ServicesPage: React.FC = () => {
       <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Request a Quote for {selectedService?.title}</DialogTitle>
+            <DialogTitle>
+              Request a Quote for {selectedService?.title}
+            </DialogTitle>
             <DialogDescription>
-              Fill out this form and we&apos;ll get back to you with a custom quote for our {selectedService?.title} service.
+              Fill out this form and we&apos;ll get back to you with a custom
+              quote for our {selectedService?.title} service.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleQuoteSubmit}>
@@ -134,7 +168,12 @@ const ServicesPage: React.FC = () => {
                 <Label htmlFor="email" className="text-right">
                   Email
                 </Label>
-                <Input id="email" type="email" className="col-span-3" required />
+                <Input
+                  id="email"
+                  type="email"
+                  className="col-span-3"
+                  required
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="phone" className="text-right">
@@ -150,13 +189,18 @@ const ServicesPage: React.FC = () => {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" className="bg-green-700 hover:bg-green-600 text-white">Submit Request</Button>
+              <Button
+                type="submit"
+                className="bg-green-700 hover:bg-green-600 text-white"
+              >
+                Submit Request
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </section>
-  )
-}
+  );
+};
 
-export default ServicesPage
+export default ServicesPage;

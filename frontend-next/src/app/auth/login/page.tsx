@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React from 'react';
-import LoginPage from '@/app/components/Login/login';
+import React from "react";
+import LoginPage from "@/app/components/Login/login";
 
 const Login: React.FC = () => {
   return (
     <div className="flex min-h-screen bg-white">
-      <LoginPage />    
+      <LoginPage />
     </div>
   );
 };

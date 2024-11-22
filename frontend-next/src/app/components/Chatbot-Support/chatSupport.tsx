@@ -1,57 +1,57 @@
-'use client'
+"use client";
 
-import { useState, useEffect, useRef } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { MessageCircle, Send, X, Loader2 } from 'lucide-react'
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MessageCircle, Send, X, Loader2 } from "lucide-react";
 
 interface Message {
-  id: string
-  text: string
-  sender: 'user' | 'support'
-  timestamp: Date
+  id: string;
+  text: string;
+  sender: "user" | "support";
+  timestamp: Date;
 }
 
 export default function ChatSupport() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [inputMessage, setInputMessage] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputMessage, setInputMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
-  }, [messages])
+  }, [messages]);
 
   const handleSendMessage = () => {
-    if (inputMessage.trim() === '') return
+    if (inputMessage.trim() === "") return;
 
     const newMessage: Message = {
       id: Date.now().toString(),
       text: inputMessage,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date(),
-    }
+    };
 
-    setMessages((prevMessages) => [...prevMessages, newMessage])
-    setInputMessage('')
-    setIsTyping(true)
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    setInputMessage("");
+    setIsTyping(true);
 
     // Simulate support response
     setTimeout(() => {
       const supportMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: "Thank you for your message. Our support team will get back to you shortly.",
-        sender: 'support',
+        sender: "support",
         timestamp: new Date(),
-      }
-      setMessages((prevMessages) => [...prevMessages, supportMessage])
-      setIsTyping(false)
-    }, 2000)
-  }
+      };
+      setMessages((prevMessages) => [...prevMessages, supportMessage]);
+      setIsTyping(false);
+    }, 2000);
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -81,14 +81,14 @@ export default function ChatSupport() {
               <div
                 key={message.id}
                 className={`mb-4 ${
-                  message.sender === 'user' ? 'text-right' : 'text-left'
+                  message.sender === "user" ? "text-right" : "text-left"
                 }`}
               >
                 <div
                   className={`inline-block p-2 rounded-lg ${
-                    message.sender === 'user'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                    message.sender === "user"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
                   }`}
                 >
                   {message.text}
@@ -108,8 +108,8 @@ export default function ChatSupport() {
           <div className="p-4 border-t">
             <form
               onSubmit={(e) => {
-                e.preventDefault()
-                handleSendMessage()
+                e.preventDefault();
+                handleSendMessage();
               }}
               className="flex items-center"
             >
@@ -128,5 +128,5 @@ export default function ChatSupport() {
         </div>
       )}
     </div>
-  )
+  );
 }

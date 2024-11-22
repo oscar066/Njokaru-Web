@@ -1,24 +1,36 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { useRouter } from 'next/navigation'
-import { Search, Filter, X, ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
-import { Badge } from "@/components/ui/badge"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import ProductDetails from "./products-details"
-import useStore from "../../../store/store"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Search, Filter, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import ProductDetails from "./products-details";
+import useStore from "../../../store/store";
 
 export interface Product {
   id: number;
   name: string;
   price: number;
   category: string;
-  image?: string ;
+  image?: string;
   description: string;
   rating: number;
   quantity: number;
@@ -28,67 +40,75 @@ export interface Product {
 }
 
 export interface CartItem extends Product {
-  maxQuantity?: number
+  maxQuantity?: number;
 }
 
 export default function ProductPage() {
-  const router = useRouter()
-  const [products, setProducts] = useState<Product[]>([])
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [priceRange, setPriceRange] = useState([0, 100])
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [sortOption, setSortOption] = useState('name')
-  const [currentPage, setCurrentPage] = useState(1)
-  const productsPerPage = 8
+  const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortOption, setSortOption] = useState("name");
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/products/')
+        const response = await fetch("http://127.0.0.1:8000/api/products/");
         if (response.ok) {
-          const data = await response.json()
-          setProducts(data)
+          const data = await response.json();
+          setProducts(data);
         } else {
-          console.error('Failed to fetch Products')
+          console.error("Failed to fetch Products");
         }
       } catch (error) {
-        console.error('Error fetching products')
+        console.error("Error fetching products");
       }
-    }
-    fetchProducts()
-  }, [])
+    };
+    fetchProducts();
+  }, []);
 
-  const categories = Array.from(new Set(products.map(product => product.category)))
+  const categories = Array.from(
+    new Set(products.map((product) => product.category)),
+  );
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
-    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category)
-    return matchesSearch && matchesPrice && matchesCategory
-  }).sort((a, b) => {
-    switch (sortOption) {
-      case 'price-asc':
-        return a.price - b.price
-      case 'price-desc':
-        return b.price - a.price
-      case 'name':
-      default:
-        return a.name.localeCompare(b.name)
-    }
-  })
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPrice =
+        product.price >= priceRange[0] && product.price <= priceRange[1];
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(product.category);
+      return matchesSearch && matchesPrice && matchesCategory;
+    })
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        case "name":
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  )
+    currentPage * productsPerPage,
+  );
 
   useEffect(() => {
-    setCurrentPage(1)
-  }, [searchTerm, priceRange, selectedCategories, sortOption])
+    setCurrentPage(1);
+  }, [searchTerm, priceRange, selectedCategories, sortOption]);
 
   const addToCart = useStore((state) => state.addToCart);
   const handleAddToCart = (product: Product) => {
@@ -97,12 +117,12 @@ export default function ProductPage() {
 
   const handleAddToWishlist = (product: Product) => {
     // Implement wishlist functionality here
-    console.log("Added to wishlist:", product)
-  }
+    console.log("Added to wishlist:", product);
+  };
 
   const handleProductClick = (product: Product) => {
-    router.push(`/product/${product.id}`)
-  }
+    router.push(`/product/${product.id}`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -116,9 +136,13 @@ export default function ProductPage() {
               Bring Nature Home
             </h1>
             <p className="text-xl mb-8 animate-fade-in-delay font-serif">
-              Transform your space with our curated collection of premium plants and accessories.
+              Transform your space with our curated collection of premium plants
+              and accessories.
             </p>
-            <Button size="lg" className="bg-green-600 hover:bg-green-700 font-serif">
+            <Button
+              size="lg"
+              className="bg-green-600 hover:bg-green-700 font-serif"
+            >
               Explore Collection
             </Button>
           </div>
@@ -139,7 +163,7 @@ export default function ProductPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2">
@@ -166,20 +190,27 @@ export default function ProductPage() {
                     <span>${priceRange[1]}</span>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-medium mb-4">Categories</h3>
                   <div className="space-y-2">
-                    {categories.map(category => (
+                    {categories.map((category) => (
                       <label key={category} className="flex items-center gap-2">
                         <input
                           type="checkbox"
                           checked={selectedCategories.includes(category)}
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setSelectedCategories([...selectedCategories, category])
+                              setSelectedCategories([
+                                ...selectedCategories,
+                                category,
+                              ]);
                             } else {
-                              setSelectedCategories(selectedCategories.filter(c => c !== category))
+                              setSelectedCategories(
+                                selectedCategories.filter(
+                                  (c) => c !== category,
+                                ),
+                              );
                             }
                           }}
                           className="rounded border-gray-300"
@@ -210,10 +241,14 @@ export default function ProductPage() {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedProducts.map((product) => (
-            <Card key={product.id} className="group cursor-pointer" onClick={() => handleProductClick(product)}>
+            <Card
+              key={product.id}
+              className="group cursor-pointer"
+              onClick={() => handleProductClick(product)}
+            >
               <CardHeader className="p-0 relative overflow-hidden">
                 <Image
-                  src={product.image || '/placeholder.svg'}
+                  src={product.image || "/placeholder.svg"}
                   alt={product.name}
                   width={300}
                   height={200}
@@ -223,8 +258,8 @@ export default function ProductPage() {
                   <Button
                     className="bg-white text-black hover:bg-gray-100"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedProduct(product)
+                      e.stopPropagation();
+                      setSelectedProduct(product);
                     }}
                   >
                     Quick View
@@ -248,8 +283,8 @@ export default function ProductPage() {
                   size="sm"
                   className="bg-green-600 hover:bg-green-700"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    handleAddToCart(product)
+                    e.stopPropagation();
+                    handleAddToCart(product);
                   }}
                 >
                   Add to Cart
@@ -263,7 +298,7 @@ export default function ProductPage() {
         <div className="mt-8 flex justify-center items-center space-x-4">
           <Button
             variant="outline"
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
@@ -274,7 +309,9 @@ export default function ProductPage() {
           </span>
           <Button
             variant="outline"
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
             disabled={currentPage === totalPages}
           >
             Next
@@ -293,5 +330,5 @@ export default function ProductPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
