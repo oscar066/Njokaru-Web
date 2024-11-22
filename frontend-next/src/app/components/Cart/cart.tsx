@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import useStore from "@/store/store"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from 'next/navigation'
 
 import { CartItem } from "../Products/products"
 
@@ -21,6 +21,7 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
+  const router = useRouter()
 
   const cartItems = useStore((state) => state.cartItems)
   const updateQuantity = useStore((state) => state.updateQuantity)
@@ -44,12 +45,20 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
     }
   }, [showAlert])
 
+  const handleCheckout = () => {
+    if (onCheckout) {
+      onCheckout()
+    }
+    setIsOpen(false)
+    router.push('/checkout')
+  }
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button 
           variant="outline" 
-          className="relative overflow-hidden group border-green-700 hover:bg-green-50"
+          className="relative group border-green-700 hover:bg-green-50"
           onClick={() => totalItems === 0 && setShowAlert(true)}
         >
           <ShoppingCart className="h-5 w-5 text-green-700 transition-transform group-hover:scale-110" />
@@ -59,7 +68,8 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                className="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                style={{ transform: 'translate(50%, -50%)' }}
               >
                 {totalItems}
               </motion.span>
@@ -69,9 +79,9 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md overflow-y-auto">
         <SheetHeader>
-          <SheetTitle className="text-2xl font-bold text-green-700 flex items-center gap-2">
+          <SheetTitle className="text-2xl font-bold text-green-700 font-serif flex items-center gap-2">
             <ShoppingCart className="h-6 w-6" />
-            Your Cart ({totalItems} items)
+            Your Cart : ({totalItems} items)
           </SheetTitle>
         </SheetHeader>
 
@@ -83,9 +93,9 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
               exit={{ opacity: 0, y: -20 }}
               className="mt-4"
             >
-              <Alert variant="destructive">
-                <AlertDescription>
-                  {alertMessage || "Your cart is empty"}
+              <Alert variant="default" className="bg-green-50 border-green-200">
+                <AlertDescription className="text-green-600">
+                  {alertMessage || "Your cart is waiting to be filled with amazing items!"}
                 </AlertDescription>
               </Alert>
             </motion.div>
@@ -93,13 +103,20 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
         </AnimatePresence>
 
         {cartItems.length === 0 ? (
-          <motion.p
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-gray-500 mt-8"
+            className="text-center mt-8 space-y-4"
           >
-            Your cart is empty
-          </motion.p>
+            <p className="text-gray-500">Your cart is empty</p>
+            <Button 
+              variant="outline" 
+              className="border-green-700 text-green-700 hover:bg-green-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Continue Shopping
+            </Button>
+          </motion.div>
         ) : (
           <div className="mt-8 space-y-4">
             <AnimatePresence>
@@ -113,7 +130,7 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
                 >
                   <div className="relative w-16 h-16 overflow-hidden rounded-md">
                     <Image
-                      src={item.image || '/placeholder'}
+                      src={item.image || '/placeholder.svg'}
                       alt={item.name}
                       width={60}
                       height={60}
@@ -164,14 +181,12 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
                 <span className="font-semibold">Total:</span>
                 <span className="font-bold text-green-700">${total.toFixed(2)}</span>
               </div>
-              <Link href="/checkout" className="block w-full">
-                <Button 
-                  className="w-full mt-4 bg-green-700 hover:bg-green-600 transition-colors"
-                  onClick={onCheckout}
-                >
-                  Proceed to Checkout
-                </Button>
-              </Link>
+              <Button 
+                className="w-full mt-4 bg-green-700 hover:bg-green-600 transition-colors"
+                onClick={handleCheckout}
+              >
+                Proceed to Checkout
+              </Button>
             </motion.div>
           </div>
         )}
@@ -179,3 +194,4 @@ export default function Cart({ maxItemQuantity = 99, onCheckout }: CartProps) {
     </Sheet>
   )
 }
+
