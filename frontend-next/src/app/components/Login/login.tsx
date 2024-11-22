@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
@@ -9,8 +11,8 @@ import Link from 'next/link';
 import { FaGoogle } from "react-icons/fa";
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { useToast } from "@/hooks/use-toast"
-import { Toaster } from "@/components/ui/toaster"
 import { ToastAction } from "@/components/ui/toast"
+import { useAuth } from '../../../app/contexts/AuthContext';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,6 +22,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
+  const { dispatch } = useAuth();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -27,29 +30,30 @@ export default function LoginPage() {
     setErrorMessage(null);
 
     try {
-      // Send login request to the server
       const response = await axios.post('http://localhost:8000/api/accounts/auth/login/', {
         email,
         password,
       });
 
-      // Display success toast
+      // Store token and user info in localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('isAdmin', response.data.isAdmin ? 'true' : 'false');
+
+      // Update global auth state
+      dispatch({ type: 'LOGIN', payload: { email, isAdmin: response.data.isAdmin } });
+
       toast({
         title: "Login Successful",
         description: "Welcome back! You've successfully logged in.",
         className: "text-green-700",
       });
 
-      // Handle successful login (e.g., redirect to the Home Page)
-      console.log('Login successful:', response.data);
-
-      // Delay redirect to allow toast to be seen
       setTimeout(() => {
         router.push('/');
       }, 1000);
 
     } catch (error) {
-      // Handle login errors
       console.error('Login failed:', error);
       setErrorMessage('Login failed. Please check your email and password.');
       toast({
@@ -58,7 +62,6 @@ export default function LoginPage() {
         variant: "destructive",
         action: <ToastAction altText="Try again">Try again</ToastAction>
       });
-
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +69,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-green-50">
-      <Toaster />
       <div className="w-full max-w-md px-4 py-8">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="flex flex-col space-y-2 text-center mb-6">
