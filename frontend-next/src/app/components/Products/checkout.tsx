@@ -14,17 +14,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+
 import { toast } from "@/hooks/use-toast";
 import { CreditCard, Wallet } from "lucide-react";
 
 import useStore from "@/store/store";
+import { OrderSummary } from "./order-summary";
+import { CartItem, Cart } from "../../../app/types/types";
 
 interface CheckoutProps {}
 
 export default function Checkout() {
   const router = useRouter();
-  const cartItems = useStore((state) => state.cartItems);
+  const cartItems = useStore((state) => state.cartItems) as CartItem[];
+  const shippingCost = 10; // Example shipping cost
   const [shippingDetails, setShippingDetails] = useState({
     fullName: "",
     address: "",
@@ -103,168 +106,146 @@ export default function Checkout() {
   console.log(cartItems);
 
   // Ensure cartItems is an array to prevent errors
-  const totalPrice = (cartItems ?? []).reduce(
-    (a, c) => a + c.price * c.quantity,
-    0,
-  );
-  const shippingCost = 10; // Example shipping cost
-  const totalWithShipping = totalPrice + shippingCost;
+  //const totalPrice = (cartItems ?? []).reduce(
+  //  (a, c) => a + c.price * c.quantity,
+  //  0
+  //);
+  //const totalWithShipping = totalPrice + shippingCost;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-green-700 mb-8">Checkout</h1>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-semibold text-green-700 mb-4">
-            Shipping Details
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input
-                id="fullName"
-                name="fullName"
-                value={shippingDetails.fullName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                name="address"
-                value={shippingDetails.address}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="city">City</Label>
+    <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
+      <h1 className="text-4xl font-bold text-green-700 mb-8 text-center">
+        Checkout
+      </h1>
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="space-y-8">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-green-700 mb-6">
+              Shipping Details
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className="text-sm font-medium">
+                  Full Name
+                </Label>
                 <Input
-                  id="city"
-                  name="city"
-                  value={shippingDetails.city}
+                  id="fullName"
+                  name="fullName"
+                  value={shippingDetails.fullName}
                   onChange={handleInputChange}
                   required
+                  className="w-full"
                 />
               </div>
-              <div>
-                <Label htmlFor="postalCode">Postal Code</Label>
+              <div className="space-y-2">
+                <Label htmlFor="address" className="text-sm font-medium">
+                  Address
+                </Label>
                 <Input
-                  id="postalCode"
-                  name="postalCode"
-                  value={shippingDetails.postalCode}
+                  id="address"
+                  name="address"
+                  value={shippingDetails.address}
                   onChange={handleInputChange}
                   required
+                  className="w-full"
                 />
               </div>
-            </div>
-            <div>
-              <Label htmlFor="country">Country</Label>
-              <Select
-                onValueChange={(value) =>
-                  setShippingDetails((prev) => ({ ...prev, country: value }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a country" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ke">Kenya</SelectItem>
-                  <SelectItem value="ca">Canada</SelectItem>
-                  <SelectItem value="uk">United Kingdom</SelectItem>
-                  <SelectItem value="au">Australia</SelectItem>
-                  <SelectItem value="de">Germany</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="city" className="text-sm font-medium">
+                    City
+                  </Label>
+                  <Input
+                    id="city"
+                    name="city"
+                    value={shippingDetails.city}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="postalCode" className="text-sm font-medium">
+                    Postal Code
+                  </Label>
+                  <Input
+                    id="postalCode"
+                    name="postalCode"
+                    value={shippingDetails.postalCode}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="country" className="text-sm font-medium">
+                  Country
+                </Label>
+                <Select
+                  onValueChange={(value) =>
+                    setShippingDetails((prev) => ({ ...prev, country: value }))
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ke">Kenya</SelectItem>
+                    <SelectItem value="ca">Canada</SelectItem>
+                    <SelectItem value="uk">United Kingdom</SelectItem>
+                    <SelectItem value="au">Australia</SelectItem>
+                    <SelectItem value="de">Germany</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </form>
+          </div>
 
-            <Separator className="my-6" />
-
-            <h2 className="text-xl font-semibold text-green-700 mb-4">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-green-700 mb-6">
               Payment Method
             </h2>
             <RadioGroup
               value={paymentMethod}
               onValueChange={setPaymentMethod}
-              className="space-y-2"
+              className="space-y-4"
             >
-              <div className="flex items-center space-x-2 rounded-md border p-3 cursor-pointer hover:bg-gray-100">
+              <div className="flex items-center space-x-4 rounded-md border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
                 <RadioGroupItem value="credit-card" id="credit-card" />
                 <Label
                   htmlFor="credit-card"
-                  className="flex items-center space-x-2 cursor-pointer"
+                  className="flex items-center space-x-3 cursor-pointer flex-1"
                 >
-                  <CreditCard className="h-5 w-5 text-green-700" />
-                  <span>Credit Card</span>
+                  <CreditCard className="h-6 w-6 text-green-700" />
+                  <span className="font-medium">Credit Card</span>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2 rounded-md border p-3 cursor-pointer hover:bg-gray-100">
+              <div className="flex items-center space-x-4 rounded-md border p-4 cursor-pointer hover:bg-gray-50 transition-colors">
                 <RadioGroupItem value="paypal" id="paypal" />
                 <Label
                   htmlFor="paypal"
-                  className="flex items-center space-x-2 cursor-pointer"
+                  className="flex items-center space-x-3 cursor-pointer flex-1"
                 >
-                  <Wallet className="h-5 w-5 text-blue-500" />
-                  <span>PayPal</span>
+                  <Wallet className="h-6 w-6 text-blue-500" />
+                  <span className="font-medium">PayPal</span>
                 </Label>
               </div>
             </RadioGroup>
+          </div>
 
-            <Button
-              type="submit"
-              className="w-full mt-8 bg-green-700 hover:bg-green-600"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Processing..." : "Place Order"}
-            </Button>
-          </form>
+          <Button
+            type="submit"
+            className="w-full py-6 text-lg bg-green-700 hover:bg-green-600 transition-colors"
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? "Processing..." : "Place Order"}
+          </Button>
         </div>
 
-        <div>
-          <h2 className="text-xl font-semibold text-green-700 mb-4">
-            Order Summary
-          </h2>
-          <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                  <Image
-                    src={item.image || "/placeholder"}
-                    alt={item.name}
-                    width={50}
-                    height={50}
-                    className="rounded-md object-cover"
-                  />
-                  <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-500">
-                      Quantity: {item.quantity}
-                    </p>
-                  </div>
-                </div>
-                <p className="font-medium">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
-            ))}
-            <Separator />
-            <div className="flex justify-between items-center">
-              <p>Subtotal</p>
-              <p className="font-medium">${totalPrice.toFixed(2)}</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p>Shipping</p>
-              <p className="font-medium">${shippingCost.toFixed(2)}</p>
-            </div>
-            <Separator />
-            <div className="flex justify-between items-center font-bold text-lg">
-              <p>Total</p>
-              <p className="text-green-700">${totalWithShipping.toFixed(2)}</p>
-            </div>
-          </div>
+        <div className="lg:sticky lg:top-8">
+          <OrderSummary cartItems={cartItems} shippingCost={shippingCost} />
         </div>
       </div>
     </div>
