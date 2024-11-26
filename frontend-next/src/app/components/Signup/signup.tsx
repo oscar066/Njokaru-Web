@@ -15,10 +15,11 @@ import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  const [username, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
@@ -32,9 +33,21 @@ export default function SignupPage() {
     setErrorMessage(null);
 
     // Basic validation
+    if (!username || !email || !password || !confirmPassword) {
+      setErrorMessage("All fields are required.");
+      setIsLoading(false);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setIsLoading(false);
       setErrorMessage("Passwords do not match");
+      return;
+    }
+
+    if (!termsAccepted) {
+      setErrorMessage("You must agree to the terms and conditions.");
+      setIsLoading(false);
       return;
     }
 
@@ -43,14 +56,15 @@ export default function SignupPage() {
       const response = await axios.post(
         "http://localhost:8000/api/accounts/auth/register/",
         {
-          name,
+          username,
           email,
           password,
-        },
+        }
       );
 
       // Handle the successful registration
       console.log("Registration successful:", response.data);
+
       toast({
         title: "Registration Successful",
         description: "Your account has been created successfully!",
@@ -63,6 +77,7 @@ export default function SignupPage() {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      setTermsAccepted(false);
 
       // Redirect to login page after a short delay
       setTimeout(() => {
@@ -105,11 +120,11 @@ export default function SignupPage() {
               <div className="grid gap-2">
                 <div className="grid gap-1">
                   <Label className="sr-only" htmlFor="name">
-                    Full Name
+                    Username
                   </Label>
                   <Input
-                    id="name"
-                    value={name}
+                    id="username"
+                    value={username}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Full Name"
                     type="text"
@@ -178,7 +193,12 @@ export default function SignupPage() {
                     autoComplete="new-password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    className="border-green-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                    className={`border-green-300 focus:border-green-500 focus:ring-green-500 pr-10 
+                    ${
+                      password !== confirmPassword &&
+                      confirmPassword &&
+                      "border-red-500"
+                    }`}
                   />
                   <div
                     className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
@@ -192,10 +212,16 @@ export default function SignupPage() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" />
+                  <Checkbox
+                    id="terms"
+                    checked={termsAccepted}
+                    onChange={(e) =>
+                      setTermsAccepted((e.target as HTMLInputElement).checked)
+                    }
+                  />
                   <label
                     htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-green-700"
+                    className="text-sm font-medium leading-none text-green-700"
                   >
                     I agree to the{" "}
                     <Link

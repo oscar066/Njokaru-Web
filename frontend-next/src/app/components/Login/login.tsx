@@ -35,7 +35,7 @@ export default function LoginPage() {
         {
           email,
           password,
-        },
+        }
       );
 
       // Store token and user info in localStorage
