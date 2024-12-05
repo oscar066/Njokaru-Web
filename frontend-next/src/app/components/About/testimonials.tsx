@@ -26,10 +26,10 @@ const testimonials = [
 export function Testimonials() {
   return (
     <section className="mb-16">
-      <h2 className="text-3xl font-bold mb-6 text-secondary-dark">
+      <h2 className="text-3xl font-bold mb-6 text-secondary-dark font-serif">
         Testimonials
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4 font-serif">
         {testimonials.map((testimonial, index) => (
           <Card key={index} className="hover:shadow-lg">
             <CardContent className="text-center">
