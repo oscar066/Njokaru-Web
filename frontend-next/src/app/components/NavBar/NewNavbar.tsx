@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
           <div className="flex items-center">
             <Link href="/">
               <span className="flex-shrink-0 text-white font-bold text-xl font-serif">
-                NJOKARU
+                NJOWAKU
               </span>
             </Link>
           </div>

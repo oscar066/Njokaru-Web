@@ -3,8 +3,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-import aboutImage from "../../../../public/Assets/devon.jpg";
-
 const AboutUs = () => {
   const router = useRouter();
 
@@ -25,7 +23,7 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
           <div className="relative">
             <Image
-              src={aboutImage}
+              src="/Assets/devon.jpg"
               alt="A team member working on a garden design, showcasing our dedication and expertise."
               className="rounded-lg shadow-2xl max-w-full h-auto"
               width={800}

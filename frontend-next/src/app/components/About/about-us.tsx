@@ -2,9 +2,8 @@ import React from "react";
 import { OurStory } from "../About/our-story";
 import { OurMission } from "../About/our-mission";
 import { OurValues } from "../About/our-values";
-import { OurTeam } from "../About/our-team";
+// import { OurTeam } from "../About/our-team";
 import { OurExpertise } from "../About/our-expertise";
-import { Testimonials } from "../About/testimonials";
 
 export default function AboutUs() {
   return (
@@ -13,9 +12,8 @@ export default function AboutUs() {
         <OurStory />
         <OurMission />
         <OurValues />
-        <OurTeam />
         <OurExpertise />
-        <Testimonials />
+        {/* <OurTeam /> */}
       </div>
     </div>
   );
