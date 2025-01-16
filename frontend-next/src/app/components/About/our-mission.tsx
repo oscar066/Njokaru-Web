@@ -10,7 +10,7 @@ export function OurMission() {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <section className="mb-12" aria-labelledby="our-mission-heading">
+    <section className="mb-2" aria-labelledby="our-mission-heading">
       <h2 
         id="our-mission-heading" 
         className="text-3xl font-bold mb-6 text-secondary-dark font-serif"
@@ -20,7 +20,7 @@ export function OurMission() {
       <Card className="bg-primary-light/10 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6">
           <motion.p 
-            className="text-lg leading-relaxed text-gray-600 font-serif mb-4"
+            className="text-lg leading-relaxed text-gray-600 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -39,7 +39,7 @@ export function OurMission() {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <ul className="space-y-4 mb-4 text-gray-600 font-serif">
+                <ul className="space-y-4 mb-4 text-gray-600">
                   <li>• Create sustainable and beautiful outdoor spaces</li>
                   <li>• Promote biodiversity in urban and suburban areas</li>
                   <li>• Educate clients on eco-friendly gardening practices</li>
@@ -51,7 +51,7 @@ export function OurMission() {
           <Button
             onClick={() => setIsExpanded(!isExpanded)}
             variant="outline"
-            className="mt-4 text-secondary-dark border-secondary-dark hover:bg-secondary-dark hover:text-white"
+            className="mt-4 text-secondary-dark border-secondary-dark hover:bg-secondary-dark hover:text-green-900"
             aria-expanded={isExpanded}
             aria-controls="mission-details"
           >
