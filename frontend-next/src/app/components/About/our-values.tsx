@@ -37,12 +37,12 @@ export function OurValues() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-16">
+    <section className="py-8">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-secondary-dark font-serif">
           Our Core Values
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-serif">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
             <motion.div
               key={index}
@@ -58,7 +58,7 @@ export function OurValues() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
-                  <p className="text-base text-gray-600 mb-4">{value.description}</p>
+                  <p className="text-base text-gray-600 mb-4 leading-relaxed">{value.description}</p>
                   <motion.div
                     initial={false}
                     animate={{ height: expandedIndex === index ? "auto" : 0 }}
