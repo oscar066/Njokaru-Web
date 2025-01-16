@@ -45,7 +45,7 @@ export function OurExpertise() {
       <h2 className="text-3xl font-bold mb-6 text-secondary-dark font-serif">
         Our Expertise
       </h2>
-      <Accordion type="single" collapsible className="w-full font-serif">
+      <Accordion type="single" collapsible className="w-full">
         {expertise.map((item, index) => (
           <AccordionItem key={index} value={`item-${index}`}>
             <AccordionTrigger>{item.title}</AccordionTrigger>
