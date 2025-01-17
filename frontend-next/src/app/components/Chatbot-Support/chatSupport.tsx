@@ -13,7 +13,11 @@ interface Message {
   timestamp: Date;
 }
 
-export default function ChatSupport() {
+interface ChatSupportProps {
+  onClose: () => void;
+}
+
+export default function ChatSupport({ onClose }: ChatSupportProps ) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
