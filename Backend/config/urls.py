@@ -9,12 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('api/accounts/', include('accounts.urls')),  
-    path('api/products/', include('products.urls')),  
+    path('api/products/', include('products.urls')),
+    path('api/contact/', include('contact.urls')),
+    
 
-    # path('api/docs/', TemplateView.as_view(template_name='swagger-ui.html'), name='api-docs'), 
-      # API documentation
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# Custom error handlers
-#handler404 = 'config.views.custom_404_view'
-#handler500 = 'config.views.custom_500_view'
